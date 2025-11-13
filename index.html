@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AdarRewards – Otwórz swoje fragmenty nagród</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="app" class="app">
+      <div class="ambient" aria-hidden="true">
+        <div class="ambient__orb ambient__orb--left"></div>
+        <div class="ambient__orb ambient__orb--right"></div>
+        <div class="ambient__grid"></div>
+        <div class="ambient__particles" id="ambient-particles"></div>
+      </div>
+      <header class="top-bar">
+        <div class="brand">
+          <img
+            src="https://adar.pl/wp-content/uploads/2021/08/cropped-logotyp_adar_2.svg"
+            alt="Adar logo"
+            class="brand__logo"
+          />
+          <span class="brand__name">AdarRewards</span>
+        </div>
+        <nav class="top-bar__nav">
+          <a href="#" id="admin-link" class="top-bar__admin-link">Panel admina</a>
+        </nav>
+        <div class="user" id="user-info"></div>
+      </header>
+
+      <main class="content">
+        <section class="card" id="expired-card" hidden>
+          <h1 class="card__title">Twoje fragmenty wygasły</h1>
+          <p class="card__text">
+            Ten link był aktywny przez 3 dni od chwili wysyłki. Jeśli uważasz, że
+            nastąpiła pomyłka, skontaktuj się z naszym działem wsparcia.
+          </p>
+        </section>
+
+        <section class="card" id="pack-card" hidden>
+          <div class="pack">
+            <div class="pack__glow"></div>
+            <div class="pack__inner">
+              <h1 class="pack__title">Masz do otwarcia <span id="pack-count"></span> fragmentów</h1>
+              <p class="pack__subtitle">
+                Kliknij poniżej, aby otworzyć swoją paczkę nagród i zobaczyć, jakie fragmenty właśnie zdobyłeś.
+              </p>
+              <button id="open-pack" class="primary-button">Otwórz paczkę</button>
+            </div>
+            <div class="pack__animation" aria-hidden="true">
+              <div class="pack__seal"></div>
+              <div class="pack__lid"></div>
+              <div class="pack__shine"></div>
+              <div class="pack__halo"></div>
+              <div class="pack__rings" aria-hidden="true">
+                <span class="pack__ring"></span>
+                <span class="pack__ring pack__ring--delayed"></span>
+              </div>
+              <div class="pack__cards" id="pack-cards" aria-hidden="true"></div>
+              <div class="pack__burst" id="pack-burst" aria-hidden="true"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card card--wide" id="cards-card" hidden>
+          <div class="cards-header">
+            <h2 class="card__title">Twoje nowe fragmenty</h2>
+            <p class="card__text">
+              Fragmenty zostały uporządkowane według nagród. Zbieraj je, aby skompletować nagrody i odebrać je w całości.
+            </p>
+            <div class="cards-header__hint">
+              <span class="cards-header__spark"></span>
+              <p class="cards-header__text">
+                Animowane karty odkrywają się pojedynczo – obserwuj, jak grupują się w efektowne stosy.
+              </p>
+            </div>
+          </div>
+          <div class="cards-viewport">
+            <div class="cards-grid" id="cards-grid"></div>
+          </div>
+          <button id="add-to-collection" class="primary-button" disabled>Dodaj do zbioru</button>
+        </section>
+
+        <section class="card card--wide" id="collection-card" hidden>
+          <div class="collection-header">
+            <h2 class="card__title">Twój zbiór nagród</h2>
+            <p class="card__text">
+              Śledź postępy w kompletowaniu nagród. Nagrody z postępem podświetlają się po dodaniu nowych fragmentów.
+            </p>
+          </div>
+          <div class="collection-status" id="collection-status" hidden>
+            <span class="collection-status__pulse" aria-hidden="true"></span>
+            <div class="collection-status__copy">
+              <p class="collection-status__title">Adres zweryfikowany</p>
+              <p class="collection-status__subtitle" id="collection-status-subtitle"></p>
+            </div>
+          </div>
+          <div class="collection-grid" id="collection-grid"></div>
+          <div class="collection-legend">
+            <p class="collection-legend__item">
+              <span class="collection-legend__dot collection-legend__dot--active"></span>
+              Aktywne nagrody – otrzymały nowe fragmenty
+            </p>
+            <p class="collection-legend__item">
+              <span class="collection-legend__dot collection-legend__dot--complete"></span>
+              Zebrane – gotowe do odebrania
+            </p>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p>© <span id="year"></span> AdarRewards. Wszystkie prawa zastrzeżone.</p>
+      </footer>
+    </div>
+
+    <div class="admin-panel" id="admin-panel" hidden>
+      <div class="admin-panel__backdrop" data-admin-close></div>
+      <div class="admin-panel__dialog" role="dialog" aria-modal="true" aria-labelledby="admin-panel-title">
+        <header class="admin-panel__header">
+          <div class="admin-panel__title-group">
+            <p class="admin-panel__eyebrow">Zarządzanie dropem</p>
+            <h2 class="admin-panel__title" id="admin-panel-title">Panel administracyjny</h2>
+          </div>
+          <button class="admin-panel__close" type="button" data-admin-close aria-label="Zamknij panel">
+            <span aria-hidden="true">×</span>
+          </button>
+        </header>
+        <div class="admin-panel__body">
+          <section class="admin-panel__section">
+            <header class="admin-panel__section-header">
+              <h3 class="admin-panel__section-title">Konfiguracja nagród</h3>
+              <p class="admin-panel__section-text">
+                Dostosuj nazwy, wymagane fragmenty oraz prawdopodobieństwo wypadania nagród. Zmiany dotyczą aktywnego dropu oraz kolekcji.
+              </p>
+            </header>
+            <div class="admin-panel__table" id="admin-rewards"></div>
+          </section>
+          <section class="admin-panel__section">
+            <header class="admin-panel__section-header">
+              <h3 class="admin-panel__section-title">Opisy rzadkości</h3>
+              <p class="admin-panel__section-text">
+                Wpisz własne nazwy poziomów dropu – np. „Epicki drop”.
+              </p>
+            </header>
+            <form class="admin-panel__rarity-form" id="rarity-form"></form>
+          </section>
+        </div>
+        <footer class="admin-panel__footer">
+          <button class="primary-button" type="button" id="admin-save">Zapisz zmiany</button>
+        </footer>
+      </div>
+    </div>
+
+      <template id="card-group-template">
+        <div class="card-group" data-group>
+          <div class="card-group__preview">
+            <div class="card-preview">
+              <div class="card-preview__frame">
+                <div class="card-preview__layer card-preview__layer--back"></div>
+                <div class="card-preview__layer card-preview__layer--pattern"></div>
+                <div class="card-preview__glow"></div>
+                <div class="card-preview__art" data-art></div>
+                <div class="card-preview__rarity" data-rarity-text></div>
+                <div class="card-preview__badge">
+                  <span class="card-preview__badge-text" data-shards></span>
+                </div>
+                <div class="card-preview__info">
+                  <h3 class="card-preview__title" data-title></h3>
+                  <p class="card-preview__count" data-count></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card-group__stack" data-stack></div>
+        </div>
+      </template>
+
+    <template id="collection-item-template">
+      <div class="collection-item" data-item>
+        <div class="collection-item__art" data-art></div>
+        <div class="collection-item__content">
+          <h4 class="collection-item__title" data-title></h4>
+          <div class="collection-item__progress">
+            <div class="collection-item__bar" data-bar></div>
+          </div>
+          <p class="collection-item__count" data-count></p>
+        </div>
+      </div>
+    </template>
+
+    <script src="script.js" type="module"></script>
+  </body>
+</html>
