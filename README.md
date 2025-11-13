@@ -8,6 +8,7 @@ Ta miniaplikacja prezentuje koncepcyjny interfejs programu lojalnościowego Adar
 - Animowana skrzynia z efektami świetlnymi i sekwencyjnym odsłanianiem fragmentów.
 - Grupowanie kart według nagrody oraz dynamiczne układanie fragmentów w stosy.
 - Kolekcja około 50 nagród z paskami postępu i podświetleniem świeżo uzupełnionych pozycji.
+- Lekki panel administracyjny (link „Panel admina” w nagłówku) do edycji nazw nagród, progów fragmentów, prawdopodobieństw dropu oraz opisów rzadkości (np. „Epicki drop”).
 - Obsługa linków mailowych z parametrami `email`, `expires` oraz opcjonalnym pakietem `fragments` zakodowanym w base64 (JSON).
 - Informacja o wygaśnięciu linku po upływie 3 dni.
 
@@ -36,6 +37,13 @@ Ta miniaplikacja prezentuje koncepcyjny interfejs programu lojalnościowego Adar
    ```
 
 4. Jeśli parametr `expires` wskazuje przeszłą datę, zamiast interfejsu pojawi się komunikat o wygaśnięciu fragmentów.
+
+## Panel administracyjny
+
+- Kliknij link „Panel admina” w prawym górnym rogu, aby otworzyć panel konfiguracji.
+- Edytuj nazwy nagród, wymagane fragmenty oraz prawdopodobieństwa dropów – zmiany są natychmiast odzwierciedlane w aktywnym pack dropie i w kolekcji.
+- W sekcji „Opisy rzadkości” możesz podmienić etykiety takie jak „Epicki drop”. Pozostawienie pola pustego przywróci domyślną nazwę.
+- Zamknij panel przyciskiem × lub klawiszem Escape. Wszystkie ustawienia działają w bieżącej sesji przeglądarki.
 
 ## Struktura plików
 

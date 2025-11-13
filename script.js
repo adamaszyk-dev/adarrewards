@@ -1,3 +1,25 @@
+const rarityOrder = ["ultimate", "mythic", "legendary", "epic", "rare", "common"];
+
+const defaultRarityLabels = {
+  ultimate: "Ultimate drop",
+  mythic: "Mityczny drop",
+  legendary: "Legendarny drop",
+  epic: "Epicki drop",
+  rare: "Rzadki drop",
+  common: "Standardowy drop",
+};
+
+const rarityShortLabels = {
+  ultimate: "ULT",
+  mythic: "MYT",
+  legendary: "LEG",
+  epic: "EPC",
+  rare: "RARE",
+  common: "STD",
+};
+
+let rarityLabels = { ...defaultRarityLabels };
+
 const defaultPack = {
   email: "gracz@adarrewards.com",
   expiresAt: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString(),
@@ -5,7 +27,7 @@ const defaultPack = {
     {
       id: "xbox",
       name: "Xbox Series X",
-      count: 3,
+      count: 2,
       required: 22,
       rarity: "legendary",
       accent: "#42ffd5",
@@ -14,7 +36,7 @@ const defaultPack = {
     {
       id: "iphone",
       name: "iPhone 15 Pro",
-      count: 4,
+      count: 1,
       required: 28,
       rarity: "epic",
       accent: "#9c8bff",
@@ -23,61 +45,26 @@ const defaultPack = {
     {
       id: "ps5",
       name: "PlayStation 5",
-      count: 3,
+      count: 1,
       required: 25,
       rarity: "epic",
       accent: "#63cfff",
       art: "linear-gradient(150deg, rgba(87, 171, 255, 0.78), rgba(10, 20, 52, 0.92)), url('https://images.unsplash.com/photo-1606813902914-9b41ecad3491?auto=format&fit=crop&w=600&q=80')",
     },
     {
-      id: "rog-laptop",
-      name: "ROG Zephyrus G16",
-      count: 2,
-      required: 30,
-      rarity: "mythic",
-      accent: "#ff7f5f",
-      art: "linear-gradient(150deg, rgba(255, 115, 87, 0.8), rgba(15, 18, 38, 0.92)), url('https://images.unsplash.com/photo-1587202372775-98927cf68826?auto=format&fit=crop&w=600&q=80')",
-    },
-    {
-      id: "ferrari-experience",
-      name: "Ferrari Track Day",
-      count: 2,
-      required: 40,
-      rarity: "ultimate",
-      accent: "#ff4d5a",
-      art: "linear-gradient(150deg, rgba(255, 90, 90, 0.82), rgba(34, 10, 18, 0.95)), url('https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&w=600&q=80')",
-    },
-    {
       id: "steam-deck",
       name: "Steam Deck OLED",
-      count: 2,
+      count: 1,
       required: 24,
       rarity: "rare",
       accent: "#4fffc4",
       art: "linear-gradient(150deg, rgba(103, 255, 212, 0.72), rgba(10, 18, 36, 0.94)), url('https://images.unsplash.com/photo-1618005198919-d3d4b5a92eee?auto=format&fit=crop&w=600&q=80')",
     },
-    {
-      id: "mavic-3",
-      name: "DJI Mavic 3",
-      count: 2,
-      required: 26,
-      rarity: "legendary",
-      accent: "#ffa950",
-      art: "linear-gradient(150deg, rgba(255, 174, 87, 0.76), rgba(18, 18, 44, 0.92)), url('https://images.unsplash.com/photo-1508612761958-e931b20e272b?auto=format&fit=crop&w=600&q=80')",
-    },
-    {
-      id: "maldives-retreat",
-      name: "Maldives Infinity Retreat",
-      count: 3,
-      required: 42,
-      rarity: "ultimate",
-      accent: "#6df7ff",
-      art: "linear-gradient(150deg, rgba(118, 236, 255, 0.78), rgba(10, 26, 40, 0.95)), url('https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=600&q=80')",
-    },
   ],
 };
 
-const rewardsCatalog = generateRewardsCatalog();
+let rewardsCatalog = generateRewardsCatalog();
+let activePackData = null;
 let currentEmail = "";
 
 const elements = {
@@ -98,26 +85,42 @@ const elements = {
   ambientParticles: document.querySelector("#ambient-particles"),
   collectionStatus: document.querySelector("#collection-status"),
   collectionStatusSubtitle: document.querySelector("#collection-status-subtitle"),
+  adminLink: document.querySelector("#admin-link"),
+  adminPanel: document.querySelector("#admin-panel"),
+  adminRewards: document.querySelector("#admin-rewards"),
+  rarityForm: document.querySelector("#rarity-form"),
+  adminSave: document.querySelector("#admin-save"),
 };
 
 document.addEventListener("DOMContentLoaded", () => {
   elements.year.textContent = new Date().getFullYear();
 
+  elements.packCard.hidden = true;
+  elements.cardsCard.hidden = true;
+  elements.collectionCard.hidden = true;
+
   const packData = resolvePackData();
+  activePackData = {
+    ...packData,
+    fragments: packData.fragments.map((fragment) => ({ ...fragment })),
+  };
+
   setupUser(packData.email);
 
   initAmbientParticles();
+  initAdminPanel();
+  updateActiveFragmentsFromCatalog();
 
   if (isExpired(packData.expiresAt)) {
     elements.expiredCard.hidden = false;
     return;
   }
 
-  elements.packCount.textContent = packData.fragments.reduce((sum, f) => sum + f.count, 0);
+  elements.packCount.textContent = activePackData.fragments.reduce((sum, f) => sum + f.count, 0);
   elements.packCard.hidden = false;
 
-  elements.openPack?.addEventListener("click", () => handleOpenPack(packData));
-  elements.addToCollection?.addEventListener("click", () => handleAddToCollection(packData));
+  elements.openPack?.addEventListener("click", () => handleOpenPack());
+  elements.addToCollection?.addEventListener("click", () => handleAddToCollection());
 });
 
 function resolvePackData() {
@@ -159,7 +162,266 @@ function setupUser(email) {
   elements.userInfo.textContent = `Zalogowano jako: ${email}`;
 }
 
-function handleOpenPack(packData) {
+function initAdminPanel() {
+  if (!elements.adminPanel || !elements.adminLink) {
+    return;
+  }
+
+  elements.adminLink.addEventListener("click", (event) => {
+    event.preventDefault();
+    openAdminPanel();
+  });
+
+  const closers = elements.adminPanel.querySelectorAll("[data-admin-close]");
+  closers.forEach((node) => {
+    node.addEventListener("click", () => closeAdminPanel());
+  });
+
+  elements.adminPanel.addEventListener("click", (event) => {
+    if (event.target === elements.adminPanel) {
+      closeAdminPanel();
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !elements.adminPanel.hidden) {
+      closeAdminPanel();
+    }
+  });
+
+  elements.adminSave?.addEventListener("click", () => handleAdminSave());
+}
+
+function openAdminPanel() {
+  if (!elements.adminPanel) return;
+  renderAdminRewards();
+  renderRarityForm();
+  elements.adminPanel.hidden = false;
+  requestAnimationFrame(() => {
+    elements.adminPanel.classList.add("is-visible");
+  });
+}
+
+function closeAdminPanel() {
+  if (!elements.adminPanel || elements.adminPanel.hidden) {
+    return;
+  }
+  elements.adminPanel.classList.remove("is-visible");
+  const onTransitionEnd = () => {
+    elements.adminPanel.hidden = true;
+  };
+  elements.adminPanel.addEventListener("transitionend", onTransitionEnd, { once: true });
+}
+
+function renderAdminRewards() {
+  if (!elements.adminRewards) {
+    return;
+  }
+  elements.adminRewards.innerHTML = "";
+
+  rewardsCatalog.forEach((reward, index) => {
+    const row = document.createElement("div");
+    row.className = "admin-reward";
+    row.dataset.rewardId = reward.id;
+
+    const probability = Number.isFinite(reward.probability)
+      ? reward.probability
+      : computeDefaultProbability(reward.required);
+
+    const header = document.createElement("div");
+    header.className = "admin-reward__header";
+
+    const badge = document.createElement("span");
+    badge.className = "admin-reward__badge";
+    badge.textContent = String(index + 1).padStart(2, "0");
+    header.appendChild(badge);
+
+    const nameInput = document.createElement("input");
+    nameInput.className = "admin-input admin-reward__name";
+    nameInput.type = "text";
+    nameInput.value = reward.name;
+    nameInput.dataset.field = "name";
+    header.appendChild(nameInput);
+
+    const inputs = document.createElement("div");
+    inputs.className = "admin-reward__inputs";
+
+    const probabilityField = document.createElement("label");
+    probabilityField.className = "admin-field";
+    const probabilityLabel = document.createElement("span");
+    probabilityLabel.className = "admin-field__label";
+    probabilityLabel.textContent = "Prawdopodobieństwo (%)";
+    const probabilityInput = document.createElement("input");
+    probabilityInput.className = "admin-input";
+    probabilityInput.type = "number";
+    probabilityInput.min = "0";
+    probabilityInput.max = "100";
+    probabilityInput.step = "0.1";
+    probabilityInput.value = probability;
+    probabilityInput.dataset.field = "probability";
+    probabilityField.append(probabilityLabel, probabilityInput);
+
+    const requiredField = document.createElement("label");
+    requiredField.className = "admin-field";
+    const requiredLabel = document.createElement("span");
+    requiredLabel.className = "admin-field__label";
+    requiredLabel.textContent = "Wymagane fragmenty";
+    const requiredInput = document.createElement("input");
+    requiredInput.className = "admin-input";
+    requiredInput.type = "number";
+    requiredInput.min = "1";
+    requiredInput.value = reward.required;
+    requiredInput.dataset.field = "required";
+    requiredField.append(requiredLabel, requiredInput);
+
+    inputs.append(probabilityField, requiredField);
+
+    row.append(header, inputs);
+
+    elements.adminRewards.appendChild(row);
+  });
+}
+
+function renderRarityForm() {
+  if (!elements.rarityForm) {
+    return;
+  }
+  elements.rarityForm.innerHTML = "";
+
+  rarityOrder.forEach((key) => {
+    const label = rarityLabels[key] ?? defaultRarityLabels[key] ?? `${capitalize(key)} drop`;
+    const field = document.createElement("label");
+    field.className = "admin-rarity";
+    field.dataset.rarity = key;
+    field.innerHTML = `
+      <span class="admin-rarity__label">${formatAdminRarityLabel(key)}</span>
+      <input class="admin-input" type="text" value="${label}" data-rarity="${key}" />
+    `;
+    elements.rarityForm.appendChild(field);
+  });
+}
+
+function handleAdminSave() {
+  if (!elements.adminRewards) {
+    return;
+  }
+
+  const rows = elements.adminRewards.querySelectorAll(".admin-reward");
+  rows.forEach((row) => {
+    const id = row.dataset.rewardId;
+    if (!id) return;
+    const reward = rewardsCatalog.find((item) => item.id === id);
+    if (!reward) return;
+
+    const nameInput = row.querySelector('[data-field="name"]');
+    const probabilityInput = row.querySelector('[data-field="probability"]');
+    const requiredInput = row.querySelector('[data-field="required"]');
+
+    const nextName = (nameInput?.value ?? reward.name).trim() || reward.name;
+    const parsedProbability = parseFloat(probabilityInput?.value ?? "0");
+    const parsedRequired = parseInt(requiredInput?.value ?? `${reward.required}`, 10);
+
+    reward.name = nextName;
+    reward.required = Number.isFinite(parsedRequired) && parsedRequired > 0 ? parsedRequired : reward.required;
+    const normalizedProbability = Number.isFinite(parsedProbability)
+      ? Math.min(100, Math.max(0, parsedProbability))
+      : undefined;
+
+    reward.probability = normalizedProbability !== undefined
+      ? Number(normalizedProbability.toFixed(1))
+      : reward.probability ?? computeDefaultProbability(reward.required);
+  });
+
+  if (elements.rarityForm) {
+    const inputs = elements.rarityForm.querySelectorAll("input[data-rarity]");
+    inputs.forEach((input) => {
+      const key = input.dataset.rarity;
+      if (!key) return;
+      const value = input.value.trim();
+      rarityLabels[key] = value || defaultRarityLabels[key] || `${capitalize(key)} drop`;
+    });
+  }
+
+  updateActiveFragmentsFromCatalog();
+  applyRarityLabelUpdates();
+
+  if (!elements.collectionCard.hidden) {
+    renderCollection();
+  }
+
+  if (!elements.cardsCard.hidden) {
+    refreshVisibleFragmentCards();
+  }
+
+  closeAdminPanel();
+}
+
+function updateActiveFragmentsFromCatalog() {
+  const applyRewardData = (fragment) => {
+    const reward = rewardsCatalog.find((item) => item.id === fragment.id);
+    if (!reward) return fragment;
+    return {
+      ...fragment,
+      name: reward.name,
+      required: reward.required,
+    };
+  };
+
+  if (activePackData) {
+    activePackData.fragments = activePackData.fragments.map(applyRewardData);
+  }
+
+  defaultPack.fragments = defaultPack.fragments.map(applyRewardData);
+}
+
+function applyRarityLabelUpdates() {
+  rarityOrder.forEach((key) => {
+    if (!rarityLabels[key] || !rarityLabels[key].trim()) {
+      rarityLabels[key] = defaultRarityLabels[key] || `${capitalize(key)} drop`;
+    }
+  });
+}
+
+function refreshVisibleFragmentCards() {
+  const groups = elements.cardsGrid?.querySelectorAll(".card-group");
+  if (!groups) {
+    return;
+  }
+
+  groups.forEach((group) => {
+    const rewardId = group.dataset.rewardId;
+    if (!rewardId) return;
+    const fragment = activePackData?.fragments.find((item) => item.id === rewardId);
+    if (!fragment) return;
+
+    const title = group.querySelector("[data-title]");
+    if (title) {
+      title.textContent = fragment.name;
+    }
+
+    const rarityLabel = fragment.rarity ? ` · ${formatRarity(fragment.rarity)}` : "";
+    const count = group.querySelector("[data-count]");
+    if (count) {
+      count.textContent = `${fragment.count} fragmentów · cel ${fragment.required}${rarityLabel}`;
+    }
+
+    const rarityText = group.querySelector("[data-rarity-text]");
+    if (rarityText && fragment.rarity) {
+      rarityText.textContent = formatRarity(fragment.rarity);
+    }
+
+    const chips = group.querySelectorAll(".card-chip__rarity");
+    chips.forEach((node) => {
+      const chipRarity = node.closest(".card-chip")?.dataset.rarity;
+      if (chipRarity) {
+        node.textContent = formatRarityShort(chipRarity);
+      }
+    });
+  });
+}
+
+function handleOpenPack(packData = activePackData) {
+  if (!packData) return;
   elements.pack.classList.add("pack--opening");
   elements.openPack.disabled = true;
   hideCollectionStatus();
@@ -251,27 +513,34 @@ function revealFragmentGroups(fragments) {
 }
 
 function formatRarity(rarity) {
-  const labels = {
-    ultimate: "Ultimate drop",
-    mythic: "Mityczny drop",
-    legendary: "Legendarny drop",
-    epic: "Epicki drop",
-    rare: "Rzadki drop",
-    common: "Standardowy drop",
-  };
-  return labels[rarity] ?? (rarity ? `${rarity} drop` : "Fragment nagrody");
+  if (!rarity) {
+    return "Fragment nagrody";
+  }
+  const label = rarityLabels[rarity];
+  if (label && label.trim()) {
+    return label;
+  }
+  return defaultRarityLabels[rarity] ?? `${capitalize(rarity)} drop`;
 }
 
 function formatRarityShort(rarity) {
-  const labels = {
-    ultimate: "ULT",
-    mythic: "MYT",
-    legendary: "LEG",
-    epic: "EPC",
-    rare: "RARE",
-    common: "STD",
-  };
-  return labels[rarity] ?? "FRG";
+  if (!rarity) {
+    return "FRG";
+  }
+  return rarityShortLabels[rarity] ?? rarity.slice(0, 3).toUpperCase();
+}
+
+function formatAdminRarityLabel(key) {
+  const base = defaultRarityLabels[key];
+  if (base) {
+    return base.replace(/\s*drop$/i, "");
+  }
+  return capitalize(key);
+}
+
+function capitalize(value) {
+  if (!value) return "";
+  return `${value.charAt(0).toUpperCase()}${value.slice(1)}`;
 }
 
 function getRarityAccent(rarity) {
@@ -353,7 +622,8 @@ function animateStack(container) {
   });
 }
 
-function handleAddToCollection(packData) {
+function handleAddToCollection(packData = activePackData) {
+  if (!packData) return;
   elements.addToCollection.disabled = true;
   elements.cardsCard.classList.add("card--sending");
   const groups = [...elements.cardsGrid.querySelectorAll(".card-group")];
@@ -487,6 +757,14 @@ function hideCollectionStatus() {
     node.removeEventListener("transitionend", onTransitionEnd);
   };
   node.addEventListener("transitionend", onTransitionEnd);
+}
+
+function computeDefaultProbability(required) {
+  const baseline = 52;
+  const diff = Math.max(0, baseline - (required ?? 0));
+  const raw = diff * 0.6 + 2.5;
+  const clamped = Math.min(40, Math.max(0.5, raw));
+  return Number(clamped.toFixed(1));
 }
 
 function generateRewardsCatalog() {
@@ -920,7 +1198,12 @@ function generateRewardsCatalog() {
     },
   ];
 
-  return rewards.slice(0, 50);
+  return rewards
+    .map((reward) => ({
+      ...reward,
+      probability: reward.probability ?? computeDefaultProbability(reward.required),
+    }))
+    .slice(0, 50);
 }
 
 renderCollection();

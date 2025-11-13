@@ -29,6 +29,9 @@
           />
           <span class="brand__name">AdarRewards</span>
         </div>
+        <nav class="top-bar__nav">
+          <a href="#" id="admin-link" class="top-bar__admin-link">Panel admina</a>
+        </nav>
         <div class="user" id="user-info"></div>
       </header>
 
@@ -116,6 +119,44 @@
       <footer class="footer">
         <p>© <span id="year"></span> AdarRewards. Wszystkie prawa zastrzeżone.</p>
       </footer>
+    </div>
+
+    <div class="admin-panel" id="admin-panel" hidden>
+      <div class="admin-panel__backdrop" data-admin-close></div>
+      <div class="admin-panel__dialog" role="dialog" aria-modal="true" aria-labelledby="admin-panel-title">
+        <header class="admin-panel__header">
+          <div class="admin-panel__title-group">
+            <p class="admin-panel__eyebrow">Zarządzanie dropem</p>
+            <h2 class="admin-panel__title" id="admin-panel-title">Panel administracyjny</h2>
+          </div>
+          <button class="admin-panel__close" type="button" data-admin-close aria-label="Zamknij panel">
+            <span aria-hidden="true">×</span>
+          </button>
+        </header>
+        <div class="admin-panel__body">
+          <section class="admin-panel__section">
+            <header class="admin-panel__section-header">
+              <h3 class="admin-panel__section-title">Konfiguracja nagród</h3>
+              <p class="admin-panel__section-text">
+                Dostosuj nazwy, wymagane fragmenty oraz prawdopodobieństwo wypadania nagród. Zmiany dotyczą aktywnego dropu oraz kolekcji.
+              </p>
+            </header>
+            <div class="admin-panel__table" id="admin-rewards"></div>
+          </section>
+          <section class="admin-panel__section">
+            <header class="admin-panel__section-header">
+              <h3 class="admin-panel__section-title">Opisy rzadkości</h3>
+              <p class="admin-panel__section-text">
+                Wpisz własne nazwy poziomów dropu – np. „Epicki drop”.
+              </p>
+            </header>
+            <form class="admin-panel__rarity-form" id="rarity-form"></form>
+          </section>
+        </div>
+        <footer class="admin-panel__footer">
+          <button class="primary-button" type="button" id="admin-save">Zapisz zmiany</button>
+        </footer>
+      </div>
     </div>
 
       <template id="card-group-template">
