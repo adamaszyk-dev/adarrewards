@@ -78,6 +78,7 @@ const defaultPack = {
 };
 
 const rewardsCatalog = generateRewardsCatalog();
+let currentEmail = "";
 
 const elements = {
   userInfo: document.querySelector("#user-info"),
@@ -95,6 +96,8 @@ const elements = {
   packCards: document.querySelector("#pack-cards"),
   packBurst: document.querySelector("#pack-burst"),
   ambientParticles: document.querySelector("#ambient-particles"),
+  collectionStatus: document.querySelector("#collection-status"),
+  collectionStatusSubtitle: document.querySelector("#collection-status-subtitle"),
 };
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -152,28 +155,40 @@ function isExpired(expiresAt) {
 }
 
 function setupUser(email) {
+  currentEmail = email;
   elements.userInfo.textContent = `Zalogowano jako: ${email}`;
 }
 
 function handleOpenPack(packData) {
   elements.pack.classList.add("pack--opening");
   elements.openPack.disabled = true;
+  hideCollectionStatus();
+  elements.cardsCard.classList.remove("card--ready");
+  elements.cardsCard.classList.remove("card--sending");
+  elements.addToCollection.disabled = true;
 
   spawnPackCards(packData.fragments);
   triggerBurst();
 
   setTimeout(() => {
+    elements.pack.classList.add("pack--opened");
+    elements.packCard.classList.add("card--closing");
+    setTimeout(() => {
+      elements.packCard.hidden = true;
+      elements.packCard.classList.remove("card--closing");
+    }, 650);
+
     elements.cardsCard.hidden = false;
     elements.cardsCard.classList.add("card--revealing");
+    elements.cardsCard.classList.remove("card--closing");
     revealFragmentGroups(packData.fragments);
-    elements.pack.classList.add("pack--opened");
   }, 2200);
 }
 
 function revealFragmentGroups(fragments) {
   elements.cardsGrid.innerHTML = "";
   const template = document.querySelector("#card-group-template");
-  const baseDelay = 520;
+  const baseDelay = 680;
 
   fragments.forEach((fragment, index) => {
     const node = template.content.firstElementChild.cloneNode(true);
@@ -182,7 +197,7 @@ function revealFragmentGroups(fragments) {
       node.dataset.rarity = fragment.rarity;
     }
 
-    node.style.setProperty("--stagger", `${index * 0.18}s`);
+    node.style.setProperty("--stagger", `${index * 0.22}s`);
 
     const accent = fragment.accent ?? getRarityAccent(fragment.rarity);
     if (accent) {
@@ -271,19 +286,23 @@ function getRarityAccent(rarity) {
   return colors[rarity] ?? "#67b7ff";
 }
 
-function createCardStack(container, count, rarity, accent) {
-  for (let i = 0; i < count; i += 1) {
+function createCardStack(container, totalCount, rarity, accent) {
+  container.innerHTML = "";
+  const visualCount = Math.min(totalCount, 5);
+
+  for (let i = 0; i < visualCount; i += 1) {
     const card = document.createElement("div");
     card.className = "card-chip";
-    const rotation = (Math.random() - 0.5) * 14;
-    const offsetX = (Math.random() - 0.5) * 22;
-    const offsetY = Math.random() * 10;
-    const depth = Math.random() * 10;
+    const progress = visualCount === 1 ? 0.5 : i / (visualCount - 1);
+    const rotation = (progress - 0.5) * 22;
+    const offsetX = (progress - 0.5) * 46;
+    const offsetY = (Math.random() - 0.5) * 18;
+    const depth = progress * 14;
     card.style.setProperty("--rotate", `${rotation}deg`);
     card.style.setProperty("--offset-x", `${offsetX}px`);
     card.style.setProperty("--offset-y", `${offsetY}px`);
     card.style.setProperty("--depth", `${depth}px`);
-    card.style.setProperty("--float-delay", `${Math.random() * 1.6}s`);
+    card.style.setProperty("--float-delay", `${0.6 + Math.random() * 1.8}s`);
     if (accent) {
       card.style.setProperty("--accent", accent);
     }
@@ -296,8 +315,32 @@ function createCardStack(container, count, rarity, accent) {
       </div>
     `;
     card.dataset.rarity = rarity ?? "common";
-    card.style.transitionDelay = `${i * 80}ms`;
+    card.style.transitionDelay = `${i * 110}ms`;
     container.appendChild(card);
+  }
+
+  if (totalCount > visualCount) {
+    const summaryCard = document.createElement("div");
+    summaryCard.className = "card-chip card-chip--total";
+    summaryCard.dataset.rarity = rarity ?? "common";
+    if (accent) {
+      summaryCard.style.setProperty("--accent", accent);
+    }
+    summaryCard.innerHTML = `
+      <div class="card-chip__inner">
+        <span class="card-chip__shine"></span>
+        <span class="card-chip__label">Łącznie</span>
+        <span class="card-chip__value">+${totalCount}</span>
+        <span class="card-chip__rarity">${formatRarityShort(rarity)}</span>
+      </div>
+    `;
+    summaryCard.style.setProperty("--rotate", "0deg");
+    summaryCard.style.setProperty("--offset-x", "0px");
+    summaryCard.style.setProperty("--offset-y", "-4px");
+    summaryCard.style.setProperty("--depth", "18px");
+    summaryCard.style.setProperty("--float-delay", `${1.2 + visualCount * 0.2}s`);
+    summaryCard.style.transitionDelay = `${visualCount * 110}ms`;
+    container.appendChild(summaryCard);
   }
 }
 
@@ -325,9 +368,14 @@ function handleAddToCollection(packData) {
   const exitDuration = groups.length * 160 + 700;
 
   setTimeout(() => {
+    elements.cardsCard.classList.add("card--closing");
+  }, Math.max(exitDuration - 260, 0));
+
+  setTimeout(() => {
     elements.collectionCard.hidden = false;
     updateCollection(packData.fragments);
     celebrateCollection();
+    showCollectionStatus();
     requestAnimationFrame(() => {
       elements.collectionCard.scrollIntoView({ behavior: "smooth", block: "start" });
     });
@@ -339,6 +387,7 @@ function handleAddToCollection(packData) {
     elements.cardsCard.classList.remove("card--sending");
     elements.cardsCard.classList.remove("card--ready");
     elements.cardsCard.classList.remove("card--revealing");
+    elements.cardsCard.classList.remove("card--closing");
   }, exitDuration + 320);
 }
 
@@ -409,6 +458,35 @@ function renderCollection() {
 
     elements.collectionGrid.appendChild(node);
   });
+}
+
+function showCollectionStatus() {
+  if (!elements.collectionStatus || !elements.collectionStatusSubtitle) {
+    return;
+  }
+  const safeEmail = currentEmail || "twój adres";
+  elements.collectionStatusSubtitle.textContent = `Klient przypisany do adresu ${safeEmail} posiada pełne uprawnienia. Nie wykryto podejrzanej aktywności.`;
+  elements.collectionStatus.hidden = false;
+  requestAnimationFrame(() => {
+    elements.collectionStatus.classList.add("collection-status--visible");
+  });
+}
+
+function hideCollectionStatus() {
+  if (!elements.collectionStatus) {
+    return;
+  }
+  const node = elements.collectionStatus;
+  if (node.hidden) {
+    node.classList.remove("collection-status--visible");
+    return;
+  }
+  node.classList.remove("collection-status--visible");
+  const onTransitionEnd = () => {
+    node.hidden = true;
+    node.removeEventListener("transitionend", onTransitionEnd);
+  };
+  node.addEventListener("transitionend", onTransitionEnd);
 }
 
 function generateRewardsCatalog() {

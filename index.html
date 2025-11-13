@@ -79,7 +79,9 @@
               </p>
             </div>
           </div>
-          <div class="cards-grid" id="cards-grid"></div>
+          <div class="cards-viewport">
+            <div class="cards-grid" id="cards-grid"></div>
+          </div>
           <button id="add-to-collection" class="primary-button" disabled>Dodaj do zbioru</button>
         </section>
 
@@ -89,6 +91,13 @@
             <p class="card__text">
               Śledź postępy w kompletowaniu nagród. Nagrody z postępem podświetlają się po dodaniu nowych fragmentów.
             </p>
+          </div>
+          <div class="collection-status" id="collection-status" hidden>
+            <span class="collection-status__pulse" aria-hidden="true"></span>
+            <div class="collection-status__copy">
+              <p class="collection-status__title">Adres zweryfikowany</p>
+              <p class="collection-status__subtitle" id="collection-status-subtitle"></p>
+            </div>
           </div>
           <div class="collection-grid" id="collection-grid"></div>
           <div class="collection-legend">
