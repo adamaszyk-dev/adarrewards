@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AdarRewards – Otwórz swoje fragmenty nagród</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="app" class="app">
+      <header class="top-bar">
+        <div class="brand">
+          <img
+            src="https://adar.pl/wp-content/uploads/2021/08/cropped-logotyp_adar_2.svg"
+            alt="Adar logo"
+            class="brand__logo"
+          />
+          <span class="brand__name">AdarRewards</span>
+        </div>
+        <div class="user" id="user-info"></div>
+      </header>
+
+      <main class="content">
+        <section class="card" id="expired-card" hidden>
+          <h1 class="card__title">Twoje fragmenty wygasły</h1>
+          <p class="card__text">
+            Ten link był aktywny przez 3 dni od chwili wysyłki. Jeśli uważasz, że
+            nastąpiła pomyłka, skontaktuj się z naszym działem wsparcia.
+          </p>
+        </section>
+
+        <section class="card" id="pack-card" hidden>
+          <div class="pack">
+            <div class="pack__glow"></div>
+            <div class="pack__inner">
+              <h1 class="pack__title">Masz do otwarcia <span id="pack-count"></span> fragmentów</h1>
+              <p class="pack__subtitle">
+                Kliknij poniżej, aby otworzyć swoją paczkę nagród i zobaczyć, jakie fragmenty właśnie zdobyłeś.
+              </p>
+              <button id="open-pack" class="primary-button">Otwórz paczkę</button>
+            </div>
+            <div class="pack__animation" aria-hidden="true">
+              <div class="pack__seal"></div>
+              <div class="pack__lid"></div>
+              <div class="pack__shine"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="card card--wide" id="cards-card" hidden>
+          <div class="cards-header">
+            <h2 class="card__title">Twoje nowe fragmenty</h2>
+            <p class="card__text">
+              Fragmenty zostały uporządkowane według nagród. Zbieraj je, aby skompletować nagrody i odebrać je w całości.
+            </p>
+          </div>
+          <div class="cards-grid" id="cards-grid"></div>
+          <button id="add-to-collection" class="primary-button" disabled>Dodaj do zbioru</button>
+        </section>
+
+        <section class="card card--wide" id="collection-card" hidden>
+          <div class="collection-header">
+            <h2 class="card__title">Twój zbiór nagród</h2>
+            <p class="card__text">
+              Śledź postępy w kompletowaniu nagród. Nagrody z postępem podświetlają się po dodaniu nowych fragmentów.
+            </p>
+          </div>
+          <div class="collection-grid" id="collection-grid"></div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <p>© <span id="year"></span> AdarRewards. Wszystkie prawa zastrzeżone.</p>
+      </footer>
+    </div>
+
+    <template id="card-group-template">
+      <div class="card-group" data-group>
+        <div class="card-group__preview">
+          <div class="card-preview">
+            <div class="card-preview__shine"></div>
+            <div class="card-preview__art" data-art></div>
+            <div class="card-preview__info">
+              <h3 class="card-preview__title" data-title></h3>
+              <p class="card-preview__count" data-count></p>
+            </div>
+          </div>
+        </div>
+        <div class="card-group__stack" data-stack></div>
+      </div>
+    </template>
+
+    <template id="collection-item-template">
+      <div class="collection-item" data-item>
+        <div class="collection-item__art" data-art></div>
+        <div class="collection-item__content">
+          <h4 class="collection-item__title" data-title></h4>
+          <div class="collection-item__progress">
+            <div class="collection-item__bar" data-bar></div>
+          </div>
+          <p class="collection-item__count" data-count></p>
+        </div>
+      </div>
+    </template>
+
+    <script src="script.js" type="module"></script>
+  </body>
+</html>
