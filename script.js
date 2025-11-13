@@ -164,6 +164,7 @@ function handleOpenPack(packData) {
 
   setTimeout(() => {
     elements.cardsCard.hidden = false;
+    elements.cardsCard.classList.add("card--revealing");
     revealFragmentGroups(packData.fragments);
     elements.pack.classList.add("pack--opened");
   }, 2200);
@@ -172,7 +173,7 @@ function handleOpenPack(packData) {
 function revealFragmentGroups(fragments) {
   elements.cardsGrid.innerHTML = "";
   const template = document.querySelector("#card-group-template");
-  const baseDelay = 420;
+  const baseDelay = 520;
 
   fragments.forEach((fragment, index) => {
     const node = template.content.firstElementChild.cloneNode(true);
@@ -180,6 +181,8 @@ function revealFragmentGroups(fragments) {
     if (fragment.rarity) {
       node.dataset.rarity = fragment.rarity;
     }
+
+    node.style.setProperty("--stagger", `${index * 0.18}s`);
 
     const accent = fragment.accent ?? getRarityAccent(fragment.rarity);
     if (accent) {
@@ -227,7 +230,9 @@ function revealFragmentGroups(fragments) {
 
   setTimeout(() => {
     elements.addToCollection.disabled = false;
-  }, fragments.length * baseDelay + 1400);
+    elements.cardsCard.classList.remove("card--revealing");
+    elements.cardsCard.classList.add("card--ready");
+  }, fragments.length * baseDelay + 1600);
 }
 
 function formatRarity(rarity) {
@@ -278,6 +283,7 @@ function createCardStack(container, count, rarity, accent) {
     card.style.setProperty("--offset-x", `${offsetX}px`);
     card.style.setProperty("--offset-y", `${offsetY}px`);
     card.style.setProperty("--depth", `${depth}px`);
+    card.style.setProperty("--float-delay", `${Math.random() * 1.6}s`);
     if (accent) {
       card.style.setProperty("--accent", accent);
     }
@@ -306,19 +312,34 @@ function animateStack(container) {
 
 function handleAddToCollection(packData) {
   elements.addToCollection.disabled = true;
+  elements.cardsCard.classList.add("card--sending");
   const groups = [...elements.cardsGrid.querySelectorAll(".card-group")];
 
   groups.forEach((group, index) => {
+    const delay = index * 160;
     setTimeout(() => {
       group.classList.add("card-group--sent");
-    }, index * 120);
+    }, delay);
   });
+
+  const exitDuration = groups.length * 160 + 700;
 
   setTimeout(() => {
     elements.collectionCard.hidden = false;
     updateCollection(packData.fragments);
     celebrateCollection();
-  }, groups.length * 120 + 600);
+    requestAnimationFrame(() => {
+      elements.collectionCard.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }, exitDuration);
+
+  setTimeout(() => {
+    elements.cardsCard.hidden = true;
+    elements.cardsGrid.innerHTML = "";
+    elements.cardsCard.classList.remove("card--sending");
+    elements.cardsCard.classList.remove("card--ready");
+    elements.cardsCard.classList.remove("card--revealing");
+  }, exitDuration + 320);
 }
 
 function updateCollection(newFragments) {
@@ -337,7 +358,25 @@ function renderCollection() {
   elements.collectionGrid.innerHTML = "";
   const template = document.querySelector("#collection-item-template");
 
-  rewardsCatalog.forEach((reward) => {
+  const visibleRewards = rewardsCatalog
+    .filter((reward) => reward.collected > 0)
+    .sort((a, b) => {
+      if (a.justUpdated && !b.justUpdated) return -1;
+      if (!a.justUpdated && b.justUpdated) return 1;
+      const aProgress = a.collected / a.required;
+      const bProgress = b.collected / b.required;
+      return bProgress - aProgress;
+    });
+
+  if (!visibleRewards.length) {
+    const empty = document.createElement("p");
+    empty.className = "collection-empty";
+    empty.textContent = "Jeszcze nie masz żadnych fragmentów w swoim zbiorze.";
+    elements.collectionGrid.appendChild(empty);
+    return;
+  }
+
+  visibleRewards.forEach((reward) => {
     const node = template.content.firstElementChild.cloneNode(true);
     node.dataset.rewardId = reward.id;
 
