@@ -55,6 +55,11 @@
               <div class="pack__seal"></div>
               <div class="pack__lid"></div>
               <div class="pack__shine"></div>
+              <div class="pack__halo"></div>
+              <div class="pack__rings" aria-hidden="true">
+                <span class="pack__ring"></span>
+                <span class="pack__ring pack__ring--delayed"></span>
+              </div>
               <div class="pack__cards" id="pack-cards" aria-hidden="true"></div>
               <div class="pack__burst" id="pack-burst" aria-hidden="true"></div>
             </div>
@@ -69,7 +74,9 @@
             </p>
             <div class="cards-header__hint">
               <span class="cards-header__spark"></span>
-              <p class="cards-header__text">Animowane karty odkrywają się pojedynczo – obserwuj, jak grupują się w efektowne stosy.</p>
+              <p class="cards-header__text">
+                Animowane karty odkrywają się pojedynczo – obserwuj, jak grupują się w efektowne stosy.
+              </p>
             </div>
           </div>
           <div class="cards-grid" id="cards-grid"></div>
@@ -102,21 +109,29 @@
       </footer>
     </div>
 
-    <template id="card-group-template">
-      <div class="card-group" data-group>
-        <div class="card-group__preview">
-          <div class="card-preview">
-            <div class="card-preview__shine"></div>
-            <div class="card-preview__art" data-art></div>
-            <div class="card-preview__info">
-              <h3 class="card-preview__title" data-title></h3>
-              <p class="card-preview__count" data-count></p>
+      <template id="card-group-template">
+        <div class="card-group" data-group>
+          <div class="card-group__preview">
+            <div class="card-preview">
+              <div class="card-preview__frame">
+                <div class="card-preview__layer card-preview__layer--back"></div>
+                <div class="card-preview__layer card-preview__layer--pattern"></div>
+                <div class="card-preview__glow"></div>
+                <div class="card-preview__art" data-art></div>
+                <div class="card-preview__rarity" data-rarity-text></div>
+                <div class="card-preview__badge">
+                  <span class="card-preview__badge-text" data-shards></span>
+                </div>
+                <div class="card-preview__info">
+                  <h3 class="card-preview__title" data-title></h3>
+                  <p class="card-preview__count" data-count></p>
+                </div>
+              </div>
             </div>
           </div>
+          <div class="card-group__stack" data-stack></div>
         </div>
-        <div class="card-group__stack" data-stack></div>
-      </div>
-    </template>
+      </template>
 
     <template id="collection-item-template">
       <div class="collection-item" data-item>

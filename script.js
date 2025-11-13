@@ -8,7 +8,8 @@ const defaultPack = {
       count: 3,
       required: 22,
       rarity: "legendary",
-      art: "linear-gradient(140deg, rgba(76, 211, 202, 0.8), rgba(12, 26, 56, 0.95)), url('https://images.unsplash.com/photo-1605901309584-818e25960a8f?auto=format&fit=crop&w=600&q=80')",
+      accent: "#42ffd5",
+      art: "linear-gradient(150deg, rgba(64, 226, 209, 0.85), rgba(12, 26, 56, 0.95)), url('https://images.unsplash.com/photo-1605901309584-818e25960a8f?auto=format&fit=crop&w=600&q=80')",
     },
     {
       id: "iphone",
@@ -16,15 +17,17 @@ const defaultPack = {
       count: 4,
       required: 28,
       rarity: "epic",
-      art: "linear-gradient(140deg, rgba(142, 126, 244, 0.7), rgba(9, 16, 44, 0.95)), url('https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=600&q=80')",
+      accent: "#9c8bff",
+      art: "linear-gradient(150deg, rgba(142, 126, 244, 0.78), rgba(9, 16, 44, 0.95)), url('https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=600&q=80')",
     },
     {
       id: "ps5",
       name: "PlayStation 5",
-      count: 5,
+      count: 3,
       required: 25,
       rarity: "epic",
-      art: "linear-gradient(140deg, rgba(87, 171, 255, 0.75), rgba(10, 20, 52, 0.92)), url('https://images.unsplash.com/photo-1606813902914-9b41ecad3491?auto=format&fit=crop&w=600&q=80')",
+      accent: "#63cfff",
+      art: "linear-gradient(150deg, rgba(87, 171, 255, 0.78), rgba(10, 20, 52, 0.92)), url('https://images.unsplash.com/photo-1606813902914-9b41ecad3491?auto=format&fit=crop&w=600&q=80')",
     },
     {
       id: "rog-laptop",
@@ -32,23 +35,44 @@ const defaultPack = {
       count: 2,
       required: 30,
       rarity: "mythic",
-      art: "linear-gradient(140deg, rgba(255, 115, 87, 0.75), rgba(15, 18, 38, 0.9)), url('https://images.unsplash.com/photo-1587202372775-98927cf68826?auto=format&fit=crop&w=600&q=80')",
+      accent: "#ff7f5f",
+      art: "linear-gradient(150deg, rgba(255, 115, 87, 0.8), rgba(15, 18, 38, 0.92)), url('https://images.unsplash.com/photo-1587202372775-98927cf68826?auto=format&fit=crop&w=600&q=80')",
     },
     {
-      id: "meta-quest",
-      name: "Meta Quest 3",
+      id: "ferrari-experience",
+      name: "Ferrari Track Day",
+      count: 2,
+      required: 40,
+      rarity: "ultimate",
+      accent: "#ff4d5a",
+      art: "linear-gradient(150deg, rgba(255, 90, 90, 0.82), rgba(34, 10, 18, 0.95)), url('https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?auto=format&fit=crop&w=600&q=80')",
+    },
+    {
+      id: "steam-deck",
+      name: "Steam Deck OLED",
+      count: 2,
+      required: 24,
+      rarity: "rare",
+      accent: "#4fffc4",
+      art: "linear-gradient(150deg, rgba(103, 255, 212, 0.72), rgba(10, 18, 36, 0.94)), url('https://images.unsplash.com/photo-1618005198919-d3d4b5a92eee?auto=format&fit=crop&w=600&q=80')",
+    },
+    {
+      id: "mavic-3",
+      name: "DJI Mavic 3",
+      count: 2,
+      required: 26,
+      rarity: "legendary",
+      accent: "#ffa950",
+      art: "linear-gradient(150deg, rgba(255, 174, 87, 0.76), rgba(18, 18, 44, 0.92)), url('https://images.unsplash.com/photo-1508612761958-e931b20e272b?auto=format&fit=crop&w=600&q=80')",
+    },
+    {
+      id: "maldives-retreat",
+      name: "Maldives Infinity Retreat",
       count: 3,
-      required: 20,
-      rarity: "rare",
-      art: "linear-gradient(140deg, rgba(87, 255, 203, 0.6), rgba(10, 20, 44, 0.92)), url('https://images.unsplash.com/photo-1587613864265-2c1e33b6e37b?auto=format&fit=crop&w=600&q=80')",
-    },
-    {
-      id: "dron",
-      name: "Drone Explorer",
-      count: 4,
-      required: 18,
-      rarity: "rare",
-      art: "linear-gradient(140deg, rgba(255, 160, 122, 0.7), rgba(24, 22, 56, 0.92)), url('https://images.unsplash.com/photo-1465146633011-14f8e0781093?auto=format&fit=crop&w=600&q=80')",
+      required: 42,
+      rarity: "ultimate",
+      accent: "#6df7ff",
+      art: "linear-gradient(150deg, rgba(118, 236, 255, 0.78), rgba(10, 26, 40, 0.95)), url('https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=600&q=80')",
     },
   ],
 };
@@ -148,12 +172,18 @@ function handleOpenPack(packData) {
 function revealFragmentGroups(fragments) {
   elements.cardsGrid.innerHTML = "";
   const template = document.querySelector("#card-group-template");
+  const baseDelay = 420;
 
   fragments.forEach((fragment, index) => {
     const node = template.content.firstElementChild.cloneNode(true);
     node.dataset.rewardId = fragment.id;
     if (fragment.rarity) {
       node.dataset.rarity = fragment.rarity;
+    }
+
+    const accent = fragment.accent ?? getRarityAccent(fragment.rarity);
+    if (accent) {
+      node.style.setProperty("--rarity-accent", accent);
     }
 
     const art = node.querySelector("[data-art]");
@@ -166,52 +196,101 @@ function revealFragmentGroups(fragments) {
     const rarity = fragment.rarity ? ` · ${formatRarity(fragment.rarity)}` : "";
     count.textContent = `${fragment.count} fragmentów · cel ${fragment.required}${rarity}`;
 
+    const rarityTag = node.querySelector("[data-rarity-text]");
+    if (rarityTag) {
+      rarityTag.textContent = formatRarity(fragment.rarity);
+    }
+
+    const shardsBadge = node.querySelector("[data-shards]");
+    if (shardsBadge) {
+      shardsBadge.textContent = `+${fragment.count}`;
+    }
+
+    const preview = node.querySelector(".card-preview");
+    if (preview && accent) {
+      preview.style.setProperty("--rarity-accent", accent);
+    }
+
     const stack = node.querySelector("[data-stack]");
-    createCardStack(stack, fragment.count);
+    createCardStack(stack, fragment.count, fragment.rarity, accent);
 
     elements.cardsGrid.appendChild(node);
 
     requestAnimationFrame(() => {
       setTimeout(() => {
         node.classList.add("revealed");
+        preview?.classList.add("card-preview--revealed");
         animateStack(stack);
-      }, index * 400 + 200);
+      }, index * baseDelay + 240);
     });
   });
 
   setTimeout(() => {
     elements.addToCollection.disabled = false;
-  }, fragments.length * 400 + 1200);
+  }, fragments.length * baseDelay + 1400);
 }
 
 function formatRarity(rarity) {
   const labels = {
+    ultimate: "Ultimate drop",
     mythic: "Mityczny drop",
     legendary: "Legendarny drop",
     epic: "Epicki drop",
     rare: "Rzadki drop",
     common: "Standardowy drop",
   };
-  return labels[rarity] ?? rarity;
+  return labels[rarity] ?? (rarity ? `${rarity} drop` : "Fragment nagrody");
 }
 
-function createCardStack(container, count) {
+function formatRarityShort(rarity) {
+  const labels = {
+    ultimate: "ULT",
+    mythic: "MYT",
+    legendary: "LEG",
+    epic: "EPC",
+    rare: "RARE",
+    common: "STD",
+  };
+  return labels[rarity] ?? "FRG";
+}
+
+function getRarityAccent(rarity) {
+  const colors = {
+    ultimate: "#ff9559",
+    mythic: "#ff6f91",
+    legendary: "#ffd166",
+    epic: "#b397ff",
+    rare: "#67b7ff",
+    common: "#8fd1ff",
+  };
+  return colors[rarity] ?? "#67b7ff";
+}
+
+function createCardStack(container, count, rarity, accent) {
   for (let i = 0; i < count; i += 1) {
     const card = document.createElement("div");
     card.className = "card-chip";
-    const rotation = (Math.random() - 0.5) * 12;
-    const offsetX = (Math.random() - 0.5) * 16;
-    const offsetY = Math.random() * 6;
+    const rotation = (Math.random() - 0.5) * 14;
+    const offsetX = (Math.random() - 0.5) * 22;
+    const offsetY = Math.random() * 10;
+    const depth = Math.random() * 10;
     card.style.setProperty("--rotate", `${rotation}deg`);
     card.style.setProperty("--offset-x", `${offsetX}px`);
     card.style.setProperty("--offset-y", `${offsetY}px`);
+    card.style.setProperty("--depth", `${depth}px`);
+    if (accent) {
+      card.style.setProperty("--accent", accent);
+    }
     card.innerHTML = `
       <div class="card-chip__inner">
         <span class="card-chip__shine"></span>
+        <span class="card-chip__label">Fragment</span>
         <span class="card-chip__value">+1</span>
+        <span class="card-chip__rarity">${formatRarityShort(rarity)}</span>
       </div>
     `;
-    card.style.transitionDelay = `${i * 70}ms`;
+    card.dataset.rarity = rarity ?? "common";
+    card.style.transitionDelay = `${i * 80}ms`;
     container.appendChild(card);
   }
 }
@@ -617,6 +696,111 @@ function generateRewardsCatalog() {
       collected: 9,
       art: "linear-gradient(120deg, rgba(255, 94, 94, 0.32), rgba(26, 16, 18, 0.92)), url('https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=600&q=80')",
     },
+    {
+      id: "steam-deck",
+      name: "Steam Deck OLED",
+      required: 24,
+      collected: 8,
+      art: "linear-gradient(120deg, rgba(111, 255, 214, 0.32), rgba(10, 18, 36, 0.92)), url('https://images.unsplash.com/photo-1618005198919-d3d4b5a92eee?auto=format&fit=crop&w=600&q=80')",
+    },
+    {
+      id: "maldives-retreat",
+      name: "Maldives Infinity Retreat",
+      required: 42,
+      collected: 7,
+      art: "linear-gradient(120deg, rgba(118, 236, 255, 0.32), rgba(10, 26, 40, 0.92)), url('https://images.unsplash.com/photo-1505761671935-60b3a7427bad?auto=format&fit=crop&w=600&q=80')",
+    },
+    {
+      id: "lamborghini-huracan",
+      name: "Lamborghini Huracán Evo",
+      required: 48,
+      collected: 10,
+      art: "linear-gradient(120deg, rgba(255, 123, 84, 0.35), rgba(34, 12, 18, 0.92)), url('https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?auto=format&fit=crop&w=600&q=80')",
+    },
+    {
+      id: "private-jet",
+      name: "Weekend w Prywatnym Odrzutowcu",
+      required: 55,
+      collected: 6,
+      art: "linear-gradient(120deg, rgba(255, 215, 180, 0.32), rgba(24, 22, 32, 0.92)), url('https://images.unsplash.com/photo-1504198458649-3128b932f49b?auto=format&fit=crop&w=600&q=80')",
+    },
+    {
+      id: "grand-prix",
+      name: "Monaco Grand Prix VIP",
+      required: 52,
+      collected: 9,
+      art: "linear-gradient(120deg, rgba(255, 94, 151, 0.35), rgba(34, 10, 28, 0.92)), url('https://images.unsplash.com/photo-1523362628745-0c100150b504?auto=format&fit=crop&w=600&q=80')",
+    },
+    {
+      id: "antarctic-expedition",
+      name: "Ekspedycja Antarktyczna",
+      required: 60,
+      collected: 5,
+      art: "linear-gradient(120deg, rgba(168, 220, 255, 0.35), rgba(12, 18, 26, 0.92)), url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=600&q=80')",
+    },
+    {
+      id: "diamond-collection",
+      name: "Diamentowa Kolekcja",
+      required: 40,
+      collected: 8,
+      art: "linear-gradient(120deg, rgba(255, 255, 255, 0.32), rgba(18, 20, 32, 0.92)), url('https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?auto=format&fit=crop&w=600&q=80')",
+    },
+    {
+      id: "luxury-yacht",
+      name: "Rejs Luksusowym Jachtem",
+      required: 47,
+      collected: 9,
+      art: "linear-gradient(120deg, rgba(120, 210, 255, 0.32), rgba(12, 18, 32, 0.92)), url('https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=600&q=80')",
+    },
+    {
+      id: "metaverse-suite",
+      name: "Metaverse Suite VR",
+      required: 36,
+      collected: 11,
+      art: "linear-gradient(120deg, rgba(151, 126, 255, 0.32), rgba(14, 10, 32, 0.92)), url('https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=600&q=80')",
+    },
+    {
+      id: "sky-villa",
+      name: "Sky Villa Penthouse",
+      required: 44,
+      collected: 12,
+      art: "linear-gradient(120deg, rgba(255, 205, 148, 0.32), rgba(22, 18, 24, 0.92)), url('https://images.unsplash.com/photo-1524234107056-1c1f48f64ab7?auto=format&fit=crop&w=600&q=80')",
+    },
+    {
+      id: "zen-garden",
+      name: "Prywatny Japoński Ogród",
+      required: 30,
+      collected: 9,
+      art: "linear-gradient(120deg, rgba(183, 255, 200, 0.32), rgba(12, 26, 18, 0.92)), url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80')",
+    },
+    {
+      id: "ultimate-pc",
+      name: "Ultimate Creator PC",
+      required: 34,
+      collected: 14,
+      art: "linear-gradient(120deg, rgba(123, 200, 255, 0.32), rgba(12, 16, 28, 0.92)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80')",
+    },
+    {
+      id: "immersive-simulator",
+      name: "Symulator F1 360°",
+      required: 39,
+      collected: 6,
+      art: "linear-gradient(120deg, rgba(255, 137, 105, 0.32), rgba(26, 16, 26, 0.92)), url('https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=600&q=80')",
+    },
+    {
+      id: "aurora-cabin",
+      name: "Domek pod Zorzą Polarną",
+      required: 38,
+      collected: 7,
+      art: "linear-gradient(120deg, rgba(146, 212, 255, 0.32), rgba(12, 20, 34, 0.92)), url('https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=600&q=80')",
+    },
+    {
+      id: "skydiving-pro",
+      name: "Skydiving Pro Tour",
+      required: 28,
+      collected: 8,
+      art: "linear-gradient(120deg, rgba(255, 196, 122, 0.32), rgba(18, 18, 32, 0.92)), url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=600&q=80')",
+    },
   ];
 
   return rewards.slice(0, 50);
@@ -633,13 +817,20 @@ function spawnPackCards(fragments) {
   hologram.className = "pack-card pack-card--hologram";
   elements.packCards.appendChild(hologram);
 
-  const cardsToSpawn = Math.min(totalCards, 18);
+  const cardsToSpawn = Math.min(totalCards, 20);
   for (let i = 0; i < cardsToSpawn; i += 1) {
     const card = document.createElement("div");
     card.className = "pack-card";
-    const offset = (i / cardsToSpawn) * 160 - 80;
+    const span = cardsToSpawn > 1 ? cardsToSpawn - 1 : 1;
+    const offset = (i / span) * 160 - 80;
+    const tilt = (Math.random() - 0.5) * 18;
+    const rise = 60 + Math.random() * 50;
+    const hue = Math.floor(180 + Math.random() * 160);
     card.style.setProperty("--offset", `${offset}px`);
-    card.style.setProperty("--delay", `${i * 45}ms`);
+    card.style.setProperty("--tilt", `${tilt}deg`);
+    card.style.setProperty("--rise", `${rise}px`);
+    card.style.setProperty("--delay", `${i * 55}ms`);
+    card.style.setProperty("--hue", `${hue}`);
     elements.packCards.appendChild(card);
   }
 }
@@ -648,7 +839,9 @@ function triggerBurst() {
   if (!elements.packBurst) return;
 
   elements.packBurst.innerHTML = "";
-  for (let i = 0; i < 24; i += 1) {
+  const palette = ["#34d1ff", "#7d6bff", "#ffaf40", "#4fd3aa", "#ff4f6d", "#ffd166"];
+
+  for (let i = 0; i < 28; i += 1) {
     const particle = document.createElement("span");
     particle.className = "pack-burst__particle";
     const angle = Math.random() * Math.PI * 2;
@@ -657,7 +850,11 @@ function triggerBurst() {
     const y = Math.sin(angle) * distance;
     particle.style.setProperty("--tx", `${x}px`);
     particle.style.setProperty("--ty", `${y}px`);
-    particle.style.setProperty("--delay", `${Math.random() * 120}ms`);
+    particle.style.setProperty("--delay", `${Math.random() * 160}ms`);
+    particle.style.setProperty("--scale", `${0.6 + Math.random() * 0.7}`);
+    const color = palette[i % palette.length];
+    particle.style.background = color;
+    particle.style.boxShadow = `0 0 18px ${color}`;
     elements.packBurst.appendChild(particle);
   }
 }
