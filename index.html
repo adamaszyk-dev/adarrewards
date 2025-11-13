@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AdarRewards</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Orbitron:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="background-aurora" aria-hidden="true"></div>
+    <header class="top-bar">
+      <div class="logo-group">
+        <img src="https://adar.pl/wp-content/uploads/2022/05/adar_logo.svg" alt="Adar" class="logo" />
+        <span class="product">AdarRewards</span>
+      </div>
+      <nav class="top-nav">
+        <button class="admin-link" id="openAdmin">Panel administratora</button>
+      </nav>
+    </header>
+
+    <main class="layout">
+      <section class="hero" id="entrySection">
+        <div class="hero-content">
+          <h1 class="hero-title">Twój drop czeka!</h1>
+          <p class="hero-subtitle" id="dropDescription">Epicki drop — otwórz paczkę i zgarnij fragmenty supernagród.</p>
+          <div class="fragment-count">
+            <span class="count-label">Masz do otwarcia</span>
+            <span class="count-number" id="fragmentsAvailable">0</span>
+            <span class="count-label">fragmentów</span>
+          </div>
+          <button class="primary" id="openPackButton">Otwórz paczkę</button>
+          <p class="info-text">Masz czas do <span id="expiryInfo">-</span>, aby odebrać nagrodę.</p>
+        </div>
+        <div class="pack-scene">
+          <div class="pack" id="packAnimation">
+            <div class="pack-lid"></div>
+            <div class="pack-body"></div>
+            <div class="pack-glow"></div>
+            <div class="pack-burst" id="packBurst"></div>
+          </div>
+          <div class="floating-orbs">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="drop-result hidden" id="dropSection">
+        <header class="section-header">
+          <h2>Twoje nowe fragmenty</h2>
+          <p class="section-subtitle">
+            Otrzymujesz 1 fragment nagrody za każde 100€ frachtu zlecone Adarowi.
+            Zlecasz ładunek na 2500€? Otrzymasz 25 fragmentów nagród. Powodzenia!
+          </p>
+        </header>
+        <div class="drop-grid" id="fragmentGroups"></div>
+        <div class="drop-actions">
+          <button class="primary" id="addToCollection">Dodaj do zbioru</button>
+        </div>
+      </section>
+
+      <section class="collection" id="collectionSection">
+        <header class="section-header">
+          <h2>Twój zbiór nagród</h2>
+          <p class="section-subtitle">Zbieraj fragmenty, aby odblokować wymarzone nagrody.</p>
+        </header>
+        <div class="collection-grid" id="collectionGrid"></div>
+      </section>
+
+      <section class="expired hidden" id="expiredSection">
+        <div class="expired-card">
+          <h2>Link wygasł</h2>
+          <p>Okno odbioru fragmentów minęło. Skontaktuj się z opiekunem Adar, aby sprawdzić dostępne opcje.</p>
+        </div>
+      </section>
+    </main>
+
+    <div class="admin-modal hidden" id="adminModal" role="dialog" aria-modal="true">
+      <div class="admin-panel">
+        <header class="admin-header">
+          <h2>Panel administratora</h2>
+          <button class="icon-button" id="closeAdmin" aria-label="Zamknij panel">&times;</button>
+        </header>
+        <section class="admin-section">
+          <label for="descriptionInput" class="admin-label">Opis dropu</label>
+          <input id="descriptionInput" class="admin-input" type="text" />
+        </section>
+        <section class="admin-section">
+          <div class="admin-row">
+            <span class="admin-label">Nazwa nagrody</span>
+            <span class="admin-label">Prawd.</span>
+            <span class="admin-label">Fragmenty</span>
+          </div>
+          <div id="rewardControls" class="reward-controls"></div>
+        </section>
+        <div class="admin-actions">
+          <button class="primary" id="saveAdmin">Zapisz</button>
+        </div>
+      </div>
+    </div>
+
+    <template id="rewardControlTemplate">
+      <div class="admin-row">
+        <input class="admin-input" data-field="name" />
+        <input class="admin-input" data-field="probability" type="number" min="0" step="0.1" />
+        <input class="admin-input" data-field="fragmentsNeeded" type="number" min="1" />
+      </div>
+    </template>
+
+    <script src="app.js" type="module"></script>
+  </body>
+</html>
