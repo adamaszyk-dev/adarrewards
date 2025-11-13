@@ -14,6 +14,12 @@
   </head>
   <body>
     <div id="app" class="app">
+      <div class="ambient" aria-hidden="true">
+        <div class="ambient__orb ambient__orb--left"></div>
+        <div class="ambient__orb ambient__orb--right"></div>
+        <div class="ambient__grid"></div>
+        <div class="ambient__particles" id="ambient-particles"></div>
+      </div>
       <header class="top-bar">
         <div class="brand">
           <img
@@ -49,6 +55,8 @@
               <div class="pack__seal"></div>
               <div class="pack__lid"></div>
               <div class="pack__shine"></div>
+              <div class="pack__cards" id="pack-cards" aria-hidden="true"></div>
+              <div class="pack__burst" id="pack-burst" aria-hidden="true"></div>
             </div>
           </div>
         </section>
@@ -59,6 +67,10 @@
             <p class="card__text">
               Fragmenty zostały uporządkowane według nagród. Zbieraj je, aby skompletować nagrody i odebrać je w całości.
             </p>
+            <div class="cards-header__hint">
+              <span class="cards-header__spark"></span>
+              <p class="cards-header__text">Animowane karty odkrywają się pojedynczo – obserwuj, jak grupują się w efektowne stosy.</p>
+            </div>
           </div>
           <div class="cards-grid" id="cards-grid"></div>
           <button id="add-to-collection" class="primary-button" disabled>Dodaj do zbioru</button>
@@ -72,6 +84,16 @@
             </p>
           </div>
           <div class="collection-grid" id="collection-grid"></div>
+          <div class="collection-legend">
+            <p class="collection-legend__item">
+              <span class="collection-legend__dot collection-legend__dot--active"></span>
+              Aktywne nagrody – otrzymały nowe fragmenty
+            </p>
+            <p class="collection-legend__item">
+              <span class="collection-legend__dot collection-legend__dot--complete"></span>
+              Zebrane – gotowe do odebrania
+            </p>
+          </div>
         </section>
       </main>
 
