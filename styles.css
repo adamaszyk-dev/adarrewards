@@ -438,82 +438,121 @@ body {
   display: none;
 }
 
+
 .drop-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  perspective: 2000px;
 }
 
 .fragment-card {
   position: relative;
-  padding: 1.25rem 1.1rem;
-  border-radius: 18px;
-  background: linear-gradient(165deg, rgba(40, 45, 82, 0.95), rgba(18, 21, 42, 0.95));
-  border: 1px solid rgba(71, 197, 255, 0.3);
-  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.35);
-  overflow: hidden;
-  transform-origin: center;
-  animation: cardReveal 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-  display: grid;
-  gap: 0.6rem;
-  text-align: center;
+  perspective: 1600px;
+  animation: dropLift 0.75s ease both;
 }
 
-@keyframes cardReveal {
+@keyframes dropLift {
   0% {
-    transform: translateY(32px) scale(0.92);
     opacity: 0;
-  }
-  60% {
-    transform: translateY(-4px) scale(1.04);
-    opacity: 1;
+    transform: translateY(30px) scale(0.95);
   }
   100% {
+    opacity: 1;
     transform: translateY(0) scale(1);
   }
 }
 
-.fragment-card::before {
-  content: "";
+.card-inner {
+  position: relative;
+  border-radius: 18px;
+  border: 1px solid rgba(71, 197, 255, 0.4);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.45);
+  min-height: 220px;
+  transform-style: preserve-3d;
+  transition: transform 0.9s cubic-bezier(0.21, 0.85, 0.25, 1), border-color 0.4s ease;
+  overflow: hidden;
+}
+
+.fragment-card .card-face {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 20% 10%, rgba(71, 197, 255, 0.35), transparent 60%);
-  opacity: 0.7;
-  mix-blend-mode: screen;
+  padding: 1.2rem 1rem;
+  display: grid;
+  gap: 0.5rem;
+  justify-items: center;
+  align-content: center;
+  border-radius: 18px;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+.card-front {
+  background: linear-gradient(150deg, rgba(40, 45, 82, 0.95), rgba(10, 12, 28, 0.92));
+}
+
+.card-back {
+  background: linear-gradient(160deg, rgba(18, 22, 45, 0.95), rgba(40, 11, 54, 0.9));
+  transform: rotateY(180deg);
+  color: rgba(255, 255, 255, 0.65);
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+}
+
+.card-back .glyph {
+  font-size: 2rem;
+  color: rgba(71, 197, 255, 0.9);
+  font-family: "Orbitron", sans-serif;
+}
+
+.card-back .caption {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.fragment-card:not(.revealed) .card-inner {
+  transform: rotateY(180deg);
+}
+
+.fragment-card.revealed .card-inner {
+  transform: rotateY(0deg);
+  border-color: rgba(71, 197, 255, 0.75);
 }
 
 .fragment-card h3 {
   font-family: "Orbitron", sans-serif;
-  font-size: 1.1rem;
+  font-size: 1rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.15rem;
 }
 
 .fragment-card .count {
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   color: var(--success);
   font-weight: 700;
-  margin-bottom: 0.35rem;
 }
 
 .fragment-card .progress {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .fragment-stack {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.25rem;
-  margin-bottom: 1rem;
+  gap: 0.2rem;
+  margin-bottom: 0.35rem;
   perspective: 1000px;
 }
 
 .fragment-stack .card {
-  width: 52px;
-  height: 76px;
+  width: 48px;
+  height: 70px;
   border-radius: 12px;
   background: linear-gradient(135deg, rgba(71, 197, 255, 0.8), rgba(188, 98, 255, 0.75));
   box-shadow: 0 16px 30px rgba(0, 0, 0, 0.35);
@@ -569,6 +608,74 @@ body {
   background: radial-gradient(circle, rgba(188, 98, 255, 0.12), transparent 65%);
   opacity: 0.6;
   pointer-events: none;
+}
+
+.collection-portal {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 35;
+  animation: portalFade 1.6s ease forwards;
+}
+
+.collection-portal .portal-ring {
+  position: absolute;
+  width: 40vw;
+  height: 40vw;
+  max-width: 520px;
+  max-height: 520px;
+  border-radius: 50%;
+  border: 2px solid rgba(71, 197, 255, 0.35);
+  left: 50%;
+  top: 55%;
+  transform: translate(-50%, -50%) scale(0.7);
+  animation: ringPulse 1.4s ease-out forwards;
+  filter: blur(0.5px);
+}
+
+.collection-portal .portal-shard {
+  position: absolute;
+  width: 4px;
+  height: 24px;
+  background: linear-gradient(180deg, rgba(71, 197, 255, 0.9), transparent);
+  border-radius: 999px;
+  opacity: 0;
+  animation: shardTravel 1.2s ease forwards;
+  top: 55%;
+}
+
+@keyframes portalFade {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes ringPulse {
+  0% {
+    opacity: 0.15;
+    transform: translate(-50%, -50%) scale(0.6);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.3);
+  }
+}
+
+@keyframes shardTravel {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 0) scaleY(0.4);
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -160px) scaleY(1);
+  }
 }
 
 .collection-grid {
@@ -668,13 +775,14 @@ body {
 
 .reward-fragments {
   display: flex;
-  gap: 0.3rem;
-  flex-wrap: wrap;
+  gap: 0.2rem;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
 }
 
 .reward-fragments span {
-  width: 16px;
-  height: 24px;
+  width: 14px;
+  height: 22px;
   border-radius: 6px;
   background: linear-gradient(180deg, rgba(71, 197, 255, 0.4), rgba(71, 197, 255, 0));
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.35);
@@ -885,57 +993,6 @@ body {
   100% {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-.collection-flow {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
-  z-index: 30;
-}
-
-.collection-flow .streak {
-  position: absolute;
-  width: 2px;
-  height: 120px;
-  background: linear-gradient(180deg, rgba(63, 255, 191, 0), rgba(63, 255, 191, 0.8));
-  animation: streakFall 1.4s ease-in forwards;
-}
-
-@keyframes streakFall {
-  0% {
-    transform: translateY(-160px) scaleY(0.6);
-    opacity: 0;
-  }
-  40% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(140vh) scaleY(1.1);
-    opacity: 0;
-  }
-}
-
-.collection-flow .halo {
-  position: absolute;
-  width: 160px;
-  height: 160px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(71, 197, 255, 0.35), rgba(71, 197, 255, 0));
-  animation: haloExpand 1.8s ease-out forwards;
-  opacity: 0.6;
-}
-
-@keyframes haloExpand {
-  0% {
-    transform: scale(0.4);
-    opacity: 0.8;
-  }
-  100% {
-    transform: scale(1.8);
-    opacity: 0;
   }
 }
 

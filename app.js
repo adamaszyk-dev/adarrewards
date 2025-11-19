@@ -165,6 +165,9 @@ function setupInitialState() {
     return;
   }
 
+  elements.dropSection.classList.add("hidden");
+  elements.collectionSection.classList.add("hidden");
+
   elements.fragmentsAvailable.textContent = state.fragmentsAvailable;
   elements.description.textContent = state.description;
   elements.expiryInfo.textContent = state.expiresAt.toLocaleString("pl-PL", {
@@ -173,6 +176,12 @@ function setupInitialState() {
     hour: "2-digit",
     minute: "2-digit",
   });
+
+  const hasCollectedRewards = Object.values(state.collection).some((entry) => (entry?.owned ?? 0) > 0);
+  if (hasCollectedRewards) {
+    elements.collectionSection.classList.remove("hidden");
+    elements.collectionGrid.classList.add("only-active");
+  }
 }
 
 function randomBetween(min, max) {
@@ -237,7 +246,17 @@ function renderDrop() {
 
     const card = document.createElement("article");
     card.className = "fragment-card";
-    card.style.animationDelay = `${index * 0.12}s`;
+    card.dataset.index = index;
+
+    const inner = document.createElement("div");
+    inner.className = "card-inner";
+
+    const back = document.createElement("div");
+    back.className = "card-face card-back";
+    back.innerHTML = `<span class="glyph">?</span><span class="caption">Fragment w drodze</span>`;
+
+    const front = document.createElement("div");
+    front.className = "card-face card-front";
 
     const stack = document.createElement("div");
     stack.className = "fragment-stack";
@@ -261,9 +280,13 @@ function renderDrop() {
     const owned = (state.collection[rewardId]?.owned ?? 0) + count;
     progress.textContent = `${owned} z ${reward.fragmentsNeeded} fragmentów`;
 
-    card.append(stack, title, countBadge, progress);
+    front.append(stack, title, countBadge, progress);
+    inner.append(back, front);
+    card.appendChild(inner);
     elements.fragmentGroups.appendChild(card);
   });
+
+  queueCardFlip();
 }
 
 function renderCollection() {
@@ -314,25 +337,23 @@ function showOnlyCollectedRewards() {
 }
 
 function animateCollectionFlow() {
-  const flow = document.createElement("div");
-  flow.className = "collection-flow";
-  const streaks = randomBetween(8, 14);
-  for (let s = 0; s < streaks; s += 1) {
-    const streak = document.createElement("span");
-    streak.className = "streak";
-    streak.style.left = `${Math.random() * 100}%`;
-    streak.style.animationDelay = `${Math.random() * 0.35}s`;
-    flow.appendChild(streak);
+  const portal = document.createElement("div");
+  portal.className = "collection-portal";
+  for (let ring = 0; ring < 3; ring += 1) {
+    const aura = document.createElement("span");
+    aura.className = "portal-ring";
+    aura.style.animationDelay = `${ring * 0.2}s`;
+    portal.appendChild(aura);
   }
-  for (let h = 0; h < 3; h += 1) {
-    const halo = document.createElement("span");
-    halo.className = "halo";
-    halo.style.left = `${20 + h * 30}%`;
-    halo.style.top = `${40 + Math.random() * 20}%`;
-    flow.appendChild(halo);
+  for (let shard = 0; shard < 10; shard += 1) {
+    const light = document.createElement("span");
+    light.className = "portal-shard";
+    light.style.left = `${20 + Math.random() * 60}%`;
+    light.style.animationDelay = `${Math.random() * 0.4}s`;
+    portal.appendChild(light);
   }
-  document.body.appendChild(flow);
-  setTimeout(() => flow.remove(), 1800);
+  document.body.appendChild(portal);
+  setTimeout(() => portal.remove(), 1600);
 }
 
 function addDropToCollection() {
@@ -347,8 +368,20 @@ function addDropToCollection() {
   renderCollection();
   showOnlyCollectedRewards();
   animateCollectionFlow();
+  elements.fragmentGroups.innerHTML = "";
   elements.dropSection.classList.add("hidden");
+  elements.collectionSection.classList.remove("hidden");
   elements.collectionSection.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function queueCardFlip() {
+  const cards = elements.fragmentGroups.querySelectorAll(".fragment-card");
+  cards.forEach((card, index) => {
+    card.classList.remove("revealed");
+    setTimeout(() => {
+      card.classList.add("revealed");
+    }, 300 + index * 160);
+  });
 }
 
 function setupAdminPanel() {
@@ -407,13 +440,14 @@ function setupAdminPanel() {
 function wireEvents() {
   elements.openPackButton.addEventListener("click", () => {
     elements.openPackButton.disabled = true;
+    elements.dropSection.classList.add("hidden");
     triggerPackAnimation();
     hideEntrySection();
+    buildDrop();
     setTimeout(() => {
-      buildDrop();
       renderDrop();
       revealDropSection();
-    }, 1300);
+    }, 900);
   });
 
   elements.addToCollection.addEventListener("click", () => {
