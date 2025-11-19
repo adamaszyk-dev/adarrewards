@@ -79,6 +79,10 @@ const state = {
   expiresAt: null,
 };
 
+function hasCollectedRewards() {
+  return Object.values(state.collection).some((entry) => (entry?.owned ?? 0) > 0);
+}
+
 const elements = {
   description: document.getElementById("dropDescription"),
   fragmentsAvailable: document.getElementById("fragmentsAvailable"),
@@ -165,8 +169,8 @@ function setupInitialState() {
     return;
   }
 
-  elements.dropSection.classList.add("hidden");
-  elements.collectionSection.classList.add("hidden");
+  resetDropSection();
+  updateCollectionVisibility();
 
   elements.fragmentsAvailable.textContent = state.fragmentsAvailable;
   elements.description.textContent = state.description;
@@ -176,12 +180,20 @@ function setupInitialState() {
     hour: "2-digit",
     minute: "2-digit",
   });
+}
 
-  const hasCollectedRewards = Object.values(state.collection).some((entry) => (entry?.owned ?? 0) > 0);
-  if (hasCollectedRewards) {
-    elements.collectionSection.classList.remove("hidden");
-    elements.collectionGrid.classList.add("only-active");
-  }
+function resetDropSection() {
+  elements.fragmentGroups.innerHTML = "";
+  elements.dropSection.classList.add("hidden");
+  elements.dropSection.classList.remove("revealed");
+  elements.dropSection.setAttribute("aria-hidden", "true");
+}
+
+function updateCollectionVisibility({ forceShow = false } = {}) {
+  const hasAny = hasCollectedRewards();
+  const shouldShow = forceShow || hasAny;
+  elements.collectionSection.classList.toggle("hidden", !shouldShow);
+  showOnlyCollectedRewards(shouldShow && hasAny);
 }
 
 function randomBetween(min, max) {
@@ -320,8 +332,10 @@ function renderCollection() {
 }
 
 function revealDropSection() {
+  elements.collectionSection.classList.add("hidden");
   elements.dropSection.classList.remove("hidden");
   elements.dropSection.classList.add("revealed");
+  elements.dropSection.setAttribute("aria-hidden", "false");
   elements.addToCollection.focus({ preventScroll: true });
 }
 
@@ -332,8 +346,8 @@ function hideEntrySection() {
   }, 800);
 }
 
-function showOnlyCollectedRewards() {
-  elements.collectionGrid.classList.add("only-active");
+function showOnlyCollectedRewards(shouldShow = true) {
+  elements.collectionGrid.classList.toggle("only-active", shouldShow);
 }
 
 function animateCollectionFlow() {
@@ -366,11 +380,9 @@ function addDropToCollection() {
   state.currentDrop = null;
   persistState();
   renderCollection();
-  showOnlyCollectedRewards();
+  resetDropSection();
+  updateCollectionVisibility({ forceShow: true });
   animateCollectionFlow();
-  elements.fragmentGroups.innerHTML = "";
-  elements.dropSection.classList.add("hidden");
-  elements.collectionSection.classList.remove("hidden");
   elements.collectionSection.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
@@ -440,7 +452,7 @@ function setupAdminPanel() {
 function wireEvents() {
   elements.openPackButton.addEventListener("click", () => {
     elements.openPackButton.disabled = true;
-    elements.dropSection.classList.add("hidden");
+    resetDropSection();
     triggerPackAnimation();
     hideEntrySection();
     buildDrop();
