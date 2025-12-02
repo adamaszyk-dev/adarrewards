@@ -241,10 +241,21 @@ h4 {
 
 .hero__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 40px;
+  grid-template-columns: minmax(360px, 1.05fr) minmax(360px, 0.95fr);
+  gap: 48px;
   position: relative;
   z-index: 1;
+  align-items: center;
+}
+
+@media (max-width: 1024px) {
+  .hero__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.hero__copy {
+  max-width: 640px;
 }
 
 .hero__copy .logo {
@@ -272,8 +283,9 @@ h4 {
 
 .hero__visuals {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 26px;
+  grid-template-columns: 1fr;
+  gap: 22px;
+  align-content: start;
 }
 
 .glass-card {
@@ -292,8 +304,7 @@ h4 {
   gap: 12px;
 }
 
-.countdown-card .icon,
-.truck-card .truck-icon {
+.countdown-card .icon {
   width: 28px;
   height: 28px;
 }
@@ -341,15 +352,6 @@ h4 {
   background: linear-gradient(120deg, var(--adar-blue), var(--adar-red));
   transform-origin: left;
   transition: transform 0.5s ease;
-}
-
-.truck-visual {
-  border-radius: 18px;
-  padding: 16px;
-  background: radial-gradient(circle at 30% 20%, rgba(71, 201, 255, 0.16), transparent 55%),
-    radial-gradient(circle at 80% 50%, rgba(255, 59, 83, 0.14), transparent 55%),
-    rgba(255, 255, 255, 0.02);
-  border: 1px solid var(--adar-border);
 }
 
 .driver-card {
@@ -404,45 +406,8 @@ h4 {
   color: var(--adar-blue);
 }
 
-.truck-visual .truck-icon {
-  width: 120px;
-  height: 80px;
-  display: block;
-  margin: 0 auto 12px;
-}
-
-.route {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  justify-content: space-between;
-}
-
-.route-line {
-  flex: 1;
-  height: 4px;
-  background: linear-gradient(90deg, var(--adar-red), var(--adar-blue));
-  border-radius: 999px;
-  position: relative;
-}
-
-.dot {
-  display: inline-flex;
-  padding: 8px 10px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--adar-border);
-  font-weight: 700;
-  font-size: 14px;
-  color: #d8e1f2;
-}
-
-.dot--start {
-  color: #b8e7ff;
-}
-
-.dot--end {
-  color: #f7c2cb;
+.driver-card__stats {
+  margin-top: 16px;
 }
 
 .stat-row {
