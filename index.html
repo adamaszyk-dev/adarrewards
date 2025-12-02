@@ -76,6 +76,31 @@
       <symbol id="icon-heart" viewBox="0 0 64 64">
         <path d="M32 54s-18-10-18-24c0-8 6-14 14-14 3.7 0 7 1.6 9 4.2C39 17.6 42.3 16 46 16c8 0 14 6 14 14 0 14-18 24-28 24z" fill="url(#grad-red)" />
       </symbol>
+      <symbol id="icon-route" viewBox="0 0 64 64">
+        <path d="M18 14a8 8 0 118 8c0 6-10 14-10 14s-10-8-10-14a8 8 0 0112-8z" fill="url(#grad-red)" />
+        <path d="M46 28a8 8 0 118 8c0 6-10 14-10 14s-10-8-10-14a8 8 0 0112-8z" fill="url(#grad-blue)" />
+        <path d="M26 26c6 10 6 14 16 14" stroke="#2ff0a0" stroke-width="4" stroke-linecap="round" />
+      </symbol>
+      <symbol id="icon-scan" viewBox="0 0 64 64">
+        <rect x="12" y="14" width="40" height="36" rx="6" fill="#0b111d" stroke="url(#grad-blue)" stroke-width="3" />
+        <path d="M18 20h28v18H18z" stroke="url(#grad-red)" stroke-width="3" fill="none" />
+        <path d="M22 32h8m4 0h8" stroke="#2ff0a0" stroke-width="3" stroke-linecap="round" />
+      </symbol>
+      <symbol id="icon-rocket" viewBox="0 0 64 64">
+        <path d="M32 6c-6 6-10 16-10 24a14 14 0 0020 0C42 22 38 12 32 6z" fill="url(#grad-blue)" />
+        <path d="M32 38l-6 12 6-4 6 4-6-12z" fill="url(#grad-red)" />
+        <circle cx="32" cy="24" r="6" fill="#0b111d" stroke="#2ff0a0" stroke-width="3" />
+      </symbol>
+      <symbol id="icon-driver" viewBox="0 0 64 64">
+        <circle cx="32" cy="22" r="12" fill="url(#grad-blue)" />
+        <path d="M22 20a10 10 0 0020 0" stroke="#0b111d" stroke-width="3" stroke-linecap="round" />
+        <path d="M16 54c2-12 10-18 16-18s14 6 16 18" fill="#0b111d" stroke="url(#grad-red)" stroke-width="3" />
+      </symbol>
+      <symbol id="icon-map" viewBox="0 0 64 64">
+        <path d="M10 16l14-6 16 6 14-6v38l-14 6-16-6-14 6z" fill="#0b111d" stroke="url(#grad-blue)" stroke-width="3" />
+        <path d="M24 10v38" stroke="url(#grad-red)" stroke-width="3" />
+        <path d="M40 16v38" stroke="#2ff0a0" stroke-width="3" />
+      </symbol>
     </defs>
   </svg>
 
@@ -86,8 +111,11 @@
       <div class="hero__copy">
         <div class="badge">NOWOŚĆ 2025</div>
         <p class="logo">ADAR <span>NOW</span></p>
-        <h1>Pieniądze za Twój fracht w 5 minut.</h1>
-        <p class="lead">Wrzucasz skan dokumentów, liczymy do pięciu minut i kasa ląduje na Twoim koncie. Bez stresu, bez czekania.</p>
+        <div class="title-line"><svg class="title-icon"><use href="#icon-lightning"></use></svg><h1>Pieniądze za Twój fracht w 5 minut.</h1></div>
+        <div class="text-with-icon">
+          <svg><use href="#icon-scan"></use></svg>
+          <p class="lead">Wrzucasz skan dokumentów, liczymy do pięciu minut i kasa ląduje na Twoim koncie. Bez stresu, bez czekania.</p>
+        </div>
         <div class="hero__actions">
           <a class="button primary" href="#cta-final">Odbieraj pieniądze natychmiast</a>
           <p class="microcopy">2 minuty na start · zero ryzyka · zero zobowiązań</p>
@@ -144,8 +172,11 @@
     <section class="section section--problem">
       <div class="container two-col">
         <div>
-          <h2>W transporcie NIE masz czasu czekać 30, 45, 60 dni.</h2>
-          <p class="lead">Każdy dzień zwłoki to koszty, stres i blokada rozwoju. Ponad połowa przewoźników w Polsce czeka powyżej 60 dni na płatność.</p>
+          <div class="title-line"><svg class="title-icon"><use href="#icon-calendar"></use></svg><h2>W transporcie NIE masz czasu czekać 30, 45, 60 dni.</h2></div>
+          <div class="text-with-icon">
+            <svg><use href="#icon-clock"></use></svg>
+            <p class="lead">Każdy dzień zwłoki to koszty, stres i blokada rozwoju. Ponad połowa przewoźników w Polsce czeka powyżej 60 dni na płatność.</p>
+          </div>
           <div class="pill-stack">
             <span class="pill pill--red"><svg><use href="#icon-calendar"></use></svg>60 dni na przelew</span>
             <span class="pill pill--dark"><svg><use href="#icon-fuel"></use></svg>brak środków na paliwo</span>
@@ -175,7 +206,7 @@
               <span class="badge badge--good">5m</span>
             </div>
           </div>
-          <div class="panel__footer">
+          <div class="panel__footer text-with-icon">
             <svg><use href="#icon-clock"></use></svg>
             <p>Każdy dzień zwłoki kosztuje flotę: paliwo, leasingi, nerwy kierowców. Tu odzyskujesz kontrolę.</p>
           </div>
@@ -208,8 +239,11 @@
           </div>
         </div>
         <div>
-          <h2>To koniec czekania. W ADAR NOW dostajesz przelew w 5 minut.</h2>
-          <p class="lead">Nieważne, czy inni płacą po 60 dniach. W ADAR NOW rozliczamy Cię natychmiast, żebyś mógł tankować, wypłacać kierowców i rosnąć.</p>
+          <div class="title-line"><svg class="title-icon"><use href="#icon-rocket"></use></svg><h2>To koniec czekania. W ADAR NOW dostajesz przelew w 5 minut.</h2></div>
+          <div class="text-with-icon">
+            <svg><use href="#icon-cash"></use></svg>
+            <p class="lead">Nieważne, czy inni płacą po 60 dniach. W ADAR NOW rozliczamy Cię natychmiast, żebyś mógł tankować, wypłacać kierowców i rosnąć.</p>
+          </div>
           <div class="pill-stack">
             <span class="pill pill--blue"><svg><use href="#icon-clock"></use></svg>Skan → 5 minut → przelew</span>
             <span class="pill pill--dark"><svg><use href="#icon-lightning"></use></svg>Stały cashflow</span>
@@ -222,24 +256,36 @@
     <section class="section section--how">
       <div class="container">
         <div class="section__intro">
-          <h2>Najprostszy system rozliczeń na rynku.</h2>
-          <p class="lead">Trzy kroki. Zero papierologii. Oryginały? Jeśli potrzebne — przelew i tak wychodzi od razu.</p>
+          <div class="title-line"><svg class="title-icon"><use href="#icon-route"></use></svg><h2>Najprostszy system rozliczeń na rynku.</h2></div>
+          <div class="text-with-icon">
+            <svg><use href="#icon-scan"></use></svg>
+            <p class="lead">Trzy kroki. Zero papierologii. Oryginały? Jeśli potrzebne — przelew i tak wychodzi od razu.</p>
+          </div>
         </div>
         <div class="steps">
           <div class="step-card">
             <div class="step-icon"><svg><use href="#icon-truck"></use></svg></div>
             <h4>1️⃣ Wykonujesz transport</h4>
-            <p>Jedziesz jak zawsze. Bez dodatkowych formalności.</p>
+            <div class="text-with-icon small">
+              <svg><use href="#icon-map"></use></svg>
+              <p>Jedziesz jak zawsze. Bez dodatkowych formalności.</p>
+            </div>
           </div>
           <div class="step-card">
             <div class="step-icon"><svg><use href="#icon-calendar"></use></svg></div>
             <h4>2️⃣ Wrzucasz skan dokumentów</h4>
-            <p>Robisz zdjęcie lub skan w aplikacji. To trwa chwilę.</p>
+            <div class="text-with-icon small">
+              <svg><use href="#icon-scan"></use></svg>
+              <p>Robisz zdjęcie lub skan w aplikacji. To trwa chwilę.</p>
+            </div>
           </div>
           <div class="step-card">
             <div class="step-icon"><svg><use href="#icon-cash"></use></svg></div>
             <h4>3️⃣ Otrzymujesz przelew w 5 minut</h4>
-            <p>Nie zatrzymujemy wypłaty. Pieniądze są na Twoim koncie w czasie rzeczywistym.</p>
+            <div class="text-with-icon small">
+              <svg><use href="#icon-lightning"></use></svg>
+              <p>Nie zatrzymujemy wypłaty. Pieniądze są na Twoim koncie w czasie rzeczywistym.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -248,8 +294,11 @@
     <section class="section section--claim">
       <div class="container">
         <div class="section__intro section__intro--center">
-          <h1>Twoja płynność wraca natychmiast. Twoje problemy znikają natychmiast.</h1>
-          <p class="lead">Tak wygląda transport, kiedy pieniądze pojawiają się od razu.</p>
+          <div class="title-line"><svg class="title-icon"><use href="#icon-rocket"></use></svg><h1>Twoja płynność wraca natychmiast. Twoje problemy znikają natychmiast.</h1></div>
+          <div class="text-with-icon center">
+            <svg><use href="#icon-heart"></use></svg>
+            <p class="lead">Tak wygląda transport, kiedy pieniądze pojawiają się od razu.</p>
+          </div>
         </div>
         <div class="emotions">
           <div class="emotions__image"></div>
@@ -265,23 +314,26 @@
     <section class="section section--story">
       <div class="container">
         <div class="section__intro">
-          <h2>Historia, którą zna każdy przewoźnik.</h2>
-          <p class="lead">Zatory, opóźnienia, stres. Potem ADAR NOW. I wszystko się zmieniło.</p>
+          <div class="title-line"><svg class="title-icon"><use href="#icon-route"></use></svg><h2>Historia, którą zna każdy przewoźnik.</h2></div>
+          <div class="text-with-icon">
+            <svg><use href="#icon-driver"></use></svg>
+            <p class="lead">Zatory, opóźnienia, stres. Potem ADAR NOW. I wszystko się zmieniło.</p>
+          </div>
         </div>
         <div class="storyboard">
-          <div class="frame"><span>1</span> Problemy z płynnością</div>
-          <div class="frame"><span>2</span> Narastające długi</div>
-          <div class="frame"><span>3</span> Ograniczanie floty</div>
-          <div class="frame"><span>4</span> ADAR NOW</div>
-          <div class="frame"><span>5</span> Codzienne przelewy</div>
-          <div class="frame"><span>6</span> Stabilność i rozwój</div>
+          <div class="frame"><span>1</span><svg><use href="#icon-cash"></use></svg> Problemy z płynnością</div>
+          <div class="frame"><span>2</span><svg><use href="#icon-calendar"></use></svg> Narastające długi</div>
+          <div class="frame"><span>3</span><svg><use href="#icon-truck"></use></svg> Ograniczanie floty</div>
+          <div class="frame"><span>4</span><svg><use href="#icon-lightning"></use></svg> ADAR NOW</div>
+          <div class="frame"><span>5</span><svg><use href="#icon-clock"></use></svg> Codzienne przelewy</div>
+          <div class="frame"><span>6</span><svg><use href="#icon-chart"></use></svg> Stabilność i rozwój</div>
         </div>
       </div>
     </section>
 
     <section class="section section--comparison">
       <div class="container">
-        <h2>Zobacz różnicę między „starym transportem” a ADAR NOW.</h2>
+        <div class="title-line"><svg class="title-icon"><use href="#icon-chart"></use></svg><h2>Zobacz różnicę między „starym transportem” a ADAR NOW.</h2></div>
         <div class="comparison">
           <div class="comparison__table">
             <div class="row header">
@@ -319,7 +371,7 @@
 
     <section class="section section--benefits">
       <div class="container">
-        <h2>Co zyskujesz dzięki ADAR NOW?</h2>
+        <div class="title-line"><svg class="title-icon"><use href="#icon-heart"></use></svg><h2>Co zyskujesz dzięki ADAR NOW?</h2></div>
         <div class="benefits">
           <div class="benefit-card">
             <div class="benefit-icon"><svg><use href="#icon-cash"></use></svg></div>
@@ -357,7 +409,7 @@
 
     <section class="section section--social-proof">
       <div class="container">
-        <h2>Przewoźnicy, którzy przeszli na ADAR NOW, mówią jasno: „To zmienia wszystko”.</h2>
+        <div class="title-line"><svg class="title-icon"><use href="#icon-driver"></use></svg><h2>Przewoźnicy, którzy przeszli na ADAR NOW, mówią jasno: „To zmienia wszystko”.</h2></div>
         <div class="testimonials" id="testimonials">
           <div class="testimonial active">
             <div class="avatar"></div>
@@ -387,8 +439,11 @@
     <section class="section section--trust">
       <div class="container two-col">
         <div>
-          <h2>Dlaczego możemy płacić natychmiast? Bo mamy największe zaplecze w Polsce.</h2>
-          <p class="lead">Jesteśmy jedną z największych spedycji, mamy zabezpieczenia ubezpieczeniowe, finansowanie i monitoring należności.</p>
+          <div class="title-line"><svg class="title-icon"><use href="#icon-shield"></use></svg><h2>Dlaczego możemy płacić natychmiast? Bo mamy największe zaplecze w Polsce.</h2></div>
+          <div class="text-with-icon">
+            <svg><use href="#icon-chart"></use></svg>
+            <p class="lead">Jesteśmy jedną z największych spedycji, mamy zabezpieczenia ubezpieczeniowe, finansowanie i monitoring należności.</p>
+          </div>
           <div class="pill-stack">
             <span class="pill pill--blue"><svg><use href="#icon-shield"></use></svg>Zabezpieczenia finansowe</span>
             <span class="pill pill--dark"><svg><use href="#icon-chart"></use></svg>Monitoring należności</span>
@@ -405,7 +460,7 @@
 
     <section class="section section--faq" id="faq">
       <div class="container">
-        <h2>Najczęściej zadawane pytania przewoźników</h2>
+        <div class="title-line"><svg class="title-icon"><use href="#icon-scan"></use></svg><h2>Najczęściej zadawane pytania przewoźników</h2></div>
         <div class="faq">
           <details open>
             <summary><svg><use href="#icon-clock"></use></svg>Czy naprawdę wypłacacie w 5 minut?</summary>
@@ -433,8 +488,11 @@
 
     <section class="section section--cta" id="cta-final">
       <div class="container">
-        <h1>Nigdy więcej czekania na pieniądze. Płacimy natychmiast. Codziennie.</h1>
-        <p class="lead">Dołącz do ADAR NOW i odzyskaj swoją płynność już dziś.</p>
+        <div class="title-line title-line--center"><svg class="title-icon"><use href="#icon-lightning"></use></svg><h1>Nigdy więcej czekania na pieniądze. Płacimy natychmiast. Codziennie.</h1></div>
+        <div class="text-with-icon center">
+          <svg><use href="#icon-cash"></use></svg>
+          <p class="lead">Dołącz do ADAR NOW i odzyskaj swoją płynność już dziś.</p>
+        </div>
         <a class="button primary button--xl" href="#top">OTRZYMAJ PŁATNOŚĆ W 5 MINUT</a>
         <p class="microcopy">Bezpłatne uruchomienie. Zero ryzyka. Zmiana od pierwszego frachtu.</p>
       </div>
