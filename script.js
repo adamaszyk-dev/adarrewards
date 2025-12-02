@@ -1,47 +1,62 @@
-const countdownEl = document.getElementById('countdown');
+const countdownMain = document.getElementById('countdown-main');
+const countdownMs = document.getElementById('countdown-ms');
 const countdownStatus = document.getElementById('countdown-status');
 const countdownBar = document.getElementById('countdown-bar');
-let remaining = 300;
+const totalCentiseconds = 30000;
+let remaining = totalCentiseconds;
+let completed = false;
 
-function formatTime(seconds) {
-  const m = Math.floor(seconds / 60)
+function formatTime(cs) {
+  const totalSeconds = Math.floor(cs / 100);
+  const m = Math.floor(totalSeconds / 60)
     .toString()
     .padStart(1, '0');
-  const s = (seconds % 60).toString().padStart(2, '0');
-  return `${m}:${s}`;
+  const s = (totalSeconds % 60).toString().padStart(2, '0');
+  const centis = (cs % 100).toString().padStart(2, '0');
+  return { main: `${m}:${s}`, ms: `.${centis}` };
 }
 
 function updateCountdown() {
   const clamped = Math.max(0, remaining);
-  countdownEl.textContent = formatTime(clamped);
+  const { main, ms } = formatTime(clamped);
+  countdownMain.textContent = main;
+  countdownMs.textContent = ms;
 
   if (countdownBar) {
-    const percent = clamped / 300;
+    const percent = clamped / totalCentiseconds;
     countdownBar.style.transform = `scaleX(${percent})`;
   }
 
   if (remaining <= 0) {
-    countdownStatus.textContent = 'przelew wysłany';
-    countdownStatus.style.color = '#2ff0a0';
-    remaining = 300;
-    setTimeout(() => {
-      countdownStatus.textContent = 'przelew w drodze';
-      countdownStatus.style.color = '#9eb5d4';
-    }, 1200);
-  } else if (remaining <= 60) {
+    if (!completed) {
+      countdownStatus.textContent = 'przelew wykonany';
+      countdownStatus.style.color = '#2ff0a0';
+      completed = true;
+      setTimeout(() => {
+        remaining = totalCentiseconds;
+        completed = false;
+        countdownStatus.textContent = 'przelew w drodze';
+        countdownStatus.style.color = '#9eb5d4';
+      }, 1600);
+    }
+    return;
+  }
+
+  if (remaining <= 6000) {
     countdownStatus.textContent = 'ostatnie sekundy';
     countdownStatus.style.color = '#ff3b53';
-  } else if (remaining <= 180) {
+  } else if (remaining <= 18000) {
     countdownStatus.textContent = 'przyspieszamy';
     countdownStatus.style.color = '#47c9ff';
   } else {
     countdownStatus.textContent = 'przelew w drodze';
     countdownStatus.style.color = '#9eb5d4';
   }
-  remaining -= 5;
+
+  remaining -= 1;
 }
 
-setInterval(updateCountdown, 5000);
+setInterval(updateCountdown, 10);
 updateCountdown();
 
 const testimonials = document.querySelectorAll('.testimonial');

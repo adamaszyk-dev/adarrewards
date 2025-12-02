@@ -299,10 +299,24 @@ h4 {
 }
 
 .countdown {
-  font-size: 42px;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  font-family: 'Inter', 'SFMono-Regular', Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+}
+
+.countdown__main {
+  font-size: 44px;
   font-weight: 900;
   color: #fff;
   letter-spacing: 1px;
+}
+
+.countdown__ms {
+  font-size: 22px;
+  font-weight: 800;
+  color: #9eb5d4;
+  letter-spacing: 0.5px;
 }
 
 .status {
@@ -336,6 +350,58 @@ h4 {
     radial-gradient(circle at 80% 50%, rgba(255, 59, 83, 0.14), transparent 55%),
     rgba(255, 255, 255, 0.02);
   border: 1px solid var(--adar-border);
+}
+
+.driver-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.driver-scene {
+  position: relative;
+  border-radius: 18px;
+  border: 1px solid var(--adar-border);
+  background: radial-gradient(circle at 10% 10%, rgba(71, 201, 255, 0.2), transparent 35%),
+    radial-gradient(circle at 90% 10%, rgba(255, 59, 83, 0.15), transparent 40%),
+    linear-gradient(145deg, rgba(16, 22, 35, 0.95), rgba(10, 12, 18, 0.92));
+  padding: 12px;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.4);
+}
+
+.driver-scene .beam {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 35% 20%, rgba(69, 213, 255, 0.22), transparent 40%),
+    radial-gradient(circle at 80% 30%, rgba(255, 59, 83, 0.18), transparent 40%);
+  filter: blur(14px);
+  opacity: 0.9;
+}
+
+.driver-scene__svg {
+  position: relative;
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 14px;
+}
+
+.driver-scene__caption {
+  position: relative;
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 10px;
+  padding: 12px 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  margin-top: 10px;
+  border: 1px solid var(--adar-border);
+  color: #cfd8ec;
+}
+
+.driver-scene__caption svg {
+  width: 22px;
+  height: 22px;
+  color: var(--adar-blue);
 }
 
 .truck-visual .truck-icon {
@@ -774,6 +840,39 @@ h4 {
 .icon-card svg {
   width: 26px;
   height: 26px;
+}
+
+.performance-grid {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 14px;
+}
+
+.performance-card {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid var(--adar-border);
+  background: linear-gradient(150deg, rgba(71, 201, 255, 0.08), rgba(255, 59, 83, 0.08));
+  align-items: center;
+}
+
+.performance-card svg {
+  width: 32px;
+  height: 32px;
+  color: var(--adar-blue);
+}
+
+.performance-card h4 {
+  margin: 0 0 6px;
+}
+
+.performance-card p {
+  margin: 0;
+  color: #c7d3ea;
 }
 
 .faq details {
