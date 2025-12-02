@@ -13,31 +13,128 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="grad-red" x1="0" x2="1" y1="0" y2="1">
+        <stop stop-color="#ff5a6a" offset="0%" />
+        <stop stop-color="#ff2f52" offset="100%" />
+      </linearGradient>
+      <linearGradient id="grad-blue" x1="0" x2="1" y1="0" y2="1">
+        <stop stop-color="#45d5ff" offset="0%" />
+        <stop stop-color="#3a7bff" offset="100%" />
+      </linearGradient>
+      <linearGradient id="grad-green" x1="0" x2="1" y1="0" y2="1">
+        <stop stop-color="#2ff0a0" offset="0%" />
+        <stop stop-color="#19c37d" offset="100%" />
+      </linearGradient>
+      <symbol id="icon-truck" viewBox="0 0 64 64">
+        <rect x="4" y="22" width="30" height="20" rx="3" ry="3" fill="url(#grad-blue)" />
+        <path d="M34 26h12l8 9v7H34z" fill="url(#grad-red)" />
+        <rect x="39" y="27" width="6" height="6" rx="1" fill="#0b111d" />
+        <circle cx="16" cy="44" r="6" fill="#0b111d" stroke="#b9c6e4" stroke-width="2" />
+        <circle cx="46" cy="44" r="6" fill="#0b111d" stroke="#b9c6e4" stroke-width="2" />
+        <circle cx="16" cy="44" r="2" fill="#45d5ff" />
+        <circle cx="46" cy="44" r="2" fill="#45d5ff" />
+      </symbol>
+      <symbol id="icon-clock" viewBox="0 0 64 64">
+        <circle cx="32" cy="32" r="26" fill="#0b111d" stroke="url(#grad-blue)" stroke-width="3" />
+        <path d="M32 16v16l10 6" stroke="#ff5a6a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+      </symbol>
+      <symbol id="icon-lightning" viewBox="0 0 64 64">
+        <path d="M30 6l-8 22h10l-6 30 18-32h-12l8-20z" fill="url(#grad-red)" />
+      </symbol>
+      <symbol id="icon-shield" viewBox="0 0 64 64">
+        <path d="M32 6l20 8v14c0 14-9 24-20 30-11-6-20-16-20-30V14z" fill="#0b111d" stroke="url(#grad-blue)" stroke-width="3" />
+        <path d="M22 30l8 8 12-16" stroke="#2ff0a0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+      </symbol>
+      <symbol id="icon-fuel" viewBox="0 0 64 64">
+        <rect x="12" y="12" width="18" height="40" rx="4" fill="url(#grad-blue)" />
+        <path d="M30 20h10l8 8v18c0 4-6 4-6 0V32h-4" stroke="url(#grad-red)" stroke-width="4" fill="none" stroke-linecap="round" />
+        <path d="M18 24h6" stroke="#0b111d" stroke-width="4" stroke-linecap="round" />
+      </symbol>
+      <symbol id="icon-cash" viewBox="0 0 64 64">
+        <rect x="8" y="16" width="48" height="32" rx="6" fill="#0b111d" stroke="url(#grad-green)" stroke-width="3" />
+        <circle cx="32" cy="32" r="8" fill="url(#grad-green)" opacity="0.9" />
+        <path d="M32 24v16" stroke="#0b111d" stroke-width="3" />
+        <path d="M28 28h8" stroke="#0b111d" stroke-width="3" />
+      </symbol>
+      <symbol id="icon-calendar" viewBox="0 0 64 64">
+        <rect x="10" y="14" width="44" height="38" rx="6" fill="#0b111d" stroke="url(#grad-red)" stroke-width="3" />
+        <path d="M10 24h44" stroke="#1a2333" stroke-width="3" />
+        <circle cx="22" cy="34" r="4" fill="#45d5ff" />
+        <circle cx="32" cy="44" r="4" fill="#2ff0a0" />
+        <circle cx="42" cy="34" r="4" fill="#ff5a6a" />
+      </symbol>
+      <symbol id="icon-chart" viewBox="0 0 64 64">
+        <rect x="10" y="12" width="44" height="40" rx="6" fill="#0b111d" stroke="url(#grad-blue)" stroke-width="3" />
+        <path d="M18 40l8-10 8 6 12-18" stroke="#2ff0a0" stroke-width="4" fill="none" stroke-linecap="round" />
+        <circle cx="18" cy="40" r="3" fill="#2ff0a0" />
+        <circle cx="26" cy="30" r="3" fill="#2ff0a0" />
+        <circle cx="34" cy="36" r="3" fill="#2ff0a0" />
+        <circle cx="46" cy="18" r="3" fill="#2ff0a0" />
+      </symbol>
+      <symbol id="icon-heart" viewBox="0 0 64 64">
+        <path d="M32 54s-18-10-18-24c0-8 6-14 14-14 3.7 0 7 1.6 9 4.2C39 17.6 42.3 16 46 16c8 0 14 6 14 14 0 14-18 24-28 24z" fill="url(#grad-red)" />
+      </symbol>
+    </defs>
+  </svg>
+
   <header class="hero" id="top">
-    <div class="hero__content container">
-      <div class="badge">NOWOŚĆ 2025</div>
-      <p class="logo">ADAR <span>NOW</span></p>
-      <h1>Pieniądze za Twój fracht w 5 minut.</h1>
-      <h2>ADAR NOW – natychmiastowa płatność dla przewoźników. Zero czekania. Zero stresu.</h2>
-      <p class="lead">
-        Odbierasz ładunek, wrzucasz skan dokumentów i… pieniądze są na Twoim koncie.
-        Tak działa ADAR NOW. Najszybszy system płatności w polskim transporcie.
-      </p>
-      <div class="hero__actions">
-        <a class="button primary" href="#cta-final">ODBIERAJ PIENIĄDZE NATYCHMIAST</a>
-        <p class="microcopy">Rozpocznij proces w 2 minuty. Zero ryzyka. Zero zobowiązań.</p>
-      </div>
-      <div class="hero__visuals">
-        <div class="truck-speedlines">
-          <div class="truck"></div>
-          <div class="speedline"></div>
-          <div class="speedline"></div>
-          <div class="speedline"></div>
+    <div class="hero__orb hero__orb--blue"></div>
+    <div class="hero__orb hero__orb--red"></div>
+    <div class="container hero__grid">
+      <div class="hero__copy">
+        <div class="badge">NOWOŚĆ 2025</div>
+        <p class="logo">ADAR <span>NOW</span></p>
+        <h1>Pieniądze za Twój fracht w 5 minut.</h1>
+        <p class="lead">Wrzucasz skan dokumentów, liczymy do pięciu minut i kasa ląduje na Twoim koncie. Bez stresu, bez czekania.</p>
+        <div class="hero__actions">
+          <a class="button primary" href="#cta-final">Odbieraj pieniądze natychmiast</a>
+          <p class="microcopy">2 minuty na start · zero ryzyka · zero zobowiązań</p>
         </div>
-        <div class="counter">
-          <p>liczymy do przelewu</p>
+        <div class="hero__chips">
+          <span class="chip"><svg><use href="#icon-clock"></use></svg>5 minut do przelewu</span>
+          <span class="chip"><svg><use href="#icon-shield"></use></svg>Pełne zabezpieczenia</span>
+          <span class="chip"><svg><use href="#icon-lightning"></use></svg>Najbardziej dynamiczna usługa</span>
+        </div>
+      </div>
+
+      <div class="hero__visuals">
+        <div class="glass-card countdown-card">
+          <div class="card__header">
+            <span class="pill pill--blue">liczymy do przelewu</span>
+            <svg class="icon"><use href="#icon-clock"></use></svg>
+          </div>
           <div class="countdown" id="countdown">5:00</div>
           <div class="status" id="countdown-status">przelew w drodze</div>
+          <div class="bar">
+            <span class="bar__fill" id="countdown-bar"></span>
+          </div>
+        </div>
+
+        <div class="glass-card truck-card">
+          <div class="card__header">
+            <span class="pill pill--red">Trasa live</span>
+            <span class="pill pill--dark">Dokumenty OK</span>
+          </div>
+          <div class="truck-visual">
+            <svg class="truck-icon"><use href="#icon-truck"></use></svg>
+            <div class="route">
+              <span class="dot dot--start">Ładunek</span>
+              <span class="route-line"></span>
+              <span class="dot dot--end">Przelew</span>
+            </div>
+          </div>
+          <div class="stat-row">
+            <div class="stat">
+              <span class="label">czas oczekiwania</span>
+              <strong>5:00</strong>
+            </div>
+            <div class="stat">
+              <span class="label">średnia wypłata</span>
+              <strong>12 400 zł</strong>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -45,75 +142,104 @@
 
   <main>
     <section class="section section--problem">
-      <div class="container">
-        <h2>W transporcie NIE masz czasu czekać 30, 45, 60 dni.</h2>
-        <h3>Każdy dzień zwłoki to koszty, stres i blokada rozwoju.</h3>
-        <p class="lead">Ponad połowa przewoźników w Polsce czeka powyżej 60 dni na płatność.
-          To największy problem branży.</p>
-        <h4>Dlaczego opóźnienia niszczą firmy transportowe?</h4>
-        <ul class="list">
-          <li>Zamrożone środki w fakturach</li>
-          <li>Brak pieniędzy na paliwo i naprawy</li>
-          <li>Ryzyko opóźnień w wypłatach kierowców</li>
-          <li>Rosnące zadłużenie</li>
-          <li>Ograniczony rozwój floty</li>
-          <li>Nerwy i presja każdego dnia</li>
-        </ul>
-        <div class="infographic">
-          <div class="infographic__item">TIR → faktura → zegar 60 dni</div>
-          <div class="infographic__item">Wykres: średni czas oczekiwania na płatność</div>
-          <div class="infographic__tags">
-            <span>OPÓŹNIENIE</span>
-            <span>STOP</span>
-            <span>UWAGA</span>
+      <div class="container two-col">
+        <div>
+          <h2>W transporcie NIE masz czasu czekać 30, 45, 60 dni.</h2>
+          <p class="lead">Każdy dzień zwłoki to koszty, stres i blokada rozwoju. Ponad połowa przewoźników w Polsce czeka powyżej 60 dni na płatność.</p>
+          <div class="pill-stack">
+            <span class="pill pill--red"><svg><use href="#icon-calendar"></use></svg>60 dni na przelew</span>
+            <span class="pill pill--dark"><svg><use href="#icon-fuel"></use></svg>brak środków na paliwo</span>
+            <span class="pill pill--dark"><svg><use href="#icon-cash"></use></svg>zamrożone faktury</span>
+          </div>
+          <div class="list list--icons">
+            <div class="list__item"><svg><use href="#icon-clock"></use></svg>Zamrożone środki w fakturach</div>
+            <div class="list__item"><svg><use href="#icon-fuel"></use></svg>Brak pieniędzy na paliwo i naprawy</div>
+            <div class="list__item"><svg><use href="#icon-calendar"></use></svg>Ryzyko opóźnień w wypłatach kierowców</div>
+            <div class="list__item"><svg><use href="#icon-lightning"></use></svg>Rosnące zadłużenie i stres</div>
+          </div>
+        </div>
+        <div class="graphic-panel">
+          <div class="panel__header">
+            <span>Średni czas oczekiwania</span>
+            <strong>60 dni</strong>
+          </div>
+          <div class="bars">
+            <div class="bar-row">
+              <span>Transport</span>
+              <div class="bar-track"><span class="bar-fill" style="width: 90%"></span></div>
+              <span class="badge badge--alert">60d</span>
+            </div>
+            <div class="bar-row">
+              <span>ADAR NOW</span>
+              <div class="bar-track"><span class="bar-fill bar-fill--good" style="width: 10%"></span></div>
+              <span class="badge badge--good">5m</span>
+            </div>
+          </div>
+          <div class="panel__footer">
+            <svg><use href="#icon-clock"></use></svg>
+            <p>Każdy dzień zwłoki kosztuje flotę: paliwo, leasingi, nerwy kierowców. Tu odzyskujesz kontrolę.</p>
           </div>
         </div>
       </div>
     </section>
 
     <section class="section section--promise">
-      <div class="container">
-        <h2>To koniec czekania. W ADAR NOW dostajesz przelew w 5 minut.</h2>
-        <h3>Wrzucasz skan → liczymy 5 minut → pieniądze są Twoje.</h3>
-        <p class="lead">Nieważne, czy inni płacą po 60 dniach.
-          W ADAR NOW rozliczamy Cię natychmiast.</p>
-        <h4>Co to zmienia?</h4>
-        <ul class="list list--grid">
-          <li>Tankujesz bez stresu</li>
-          <li>Kierowcy mają wypłaty na czas</li>
-          <li>Płacisz leasingi bez presji</li>
-          <li>Nigdy nie brakuje Ci na bieżące koszty</li>
-          <li>Firma ma płynność i rośnie</li>
-        </ul>
-        <div class="mechanism">
-          <div class="step">1. Rozładunek</div>
-          <div class="arrow">→</div>
-          <div class="step">2. Skan dokumentów</div>
-          <div class="arrow">→</div>
-          <div class="step highlight">3. 5 MINUT</div>
-          <div class="arrow">→</div>
-          <div class="step">4. Przelew</div>
+      <div class="container two-col two-col--reverse">
+        <div class="graphic-cluster">
+          <div class="cluster-card">
+            <svg><use href="#icon-lightning"></use></svg>
+            <h4>5 minut</h4>
+            <p>od skanu do przelewu</p>
+          </div>
+          <div class="cluster-card">
+            <svg><use href="#icon-cash"></use></svg>
+            <h4>Płynność</h4>
+            <p>tankujesz i płacisz od razu</p>
+          </div>
+          <div class="cluster-card">
+            <svg><use href="#icon-shield"></use></svg>
+            <h4>Bezpiecznie</h4>
+            <p>ubezpieczenia i monitoring płatności</p>
+          </div>
+          <div class="cluster-card">
+            <svg><use href="#icon-chart"></use></svg>
+            <h4>Skalowanie</h4>
+            <p>rozwijasz flotę bez długu</p>
+          </div>
+        </div>
+        <div>
+          <h2>To koniec czekania. W ADAR NOW dostajesz przelew w 5 minut.</h2>
+          <p class="lead">Nieważne, czy inni płacą po 60 dniach. W ADAR NOW rozliczamy Cię natychmiast, żebyś mógł tankować, wypłacać kierowców i rosnąć.</p>
+          <div class="pill-stack">
+            <span class="pill pill--blue"><svg><use href="#icon-clock"></use></svg>Skan → 5 minut → przelew</span>
+            <span class="pill pill--dark"><svg><use href="#icon-lightning"></use></svg>Stały cashflow</span>
+            <span class="pill pill--dark"><svg><use href="#icon-heart"></use></svg>Spokój psychiczny</span>
+          </div>
         </div>
       </div>
     </section>
 
     <section class="section section--how">
       <div class="container">
-        <h2>Najprostszy system rozliczeń na rynku.</h2>
-        <h3>Trzy kroki do natychmiastowej zapłaty:</h3>
+        <div class="section__intro">
+          <h2>Najprostszy system rozliczeń na rynku.</h2>
+          <p class="lead">Trzy kroki. Zero papierologii. Oryginały? Jeśli potrzebne — przelew i tak wychodzi od razu.</p>
+        </div>
         <div class="steps">
           <div class="step-card">
+            <div class="step-icon"><svg><use href="#icon-truck"></use></svg></div>
             <h4>1️⃣ Wykonujesz transport</h4>
             <p>Jedziesz jak zawsze. Bez dodatkowych formalności.</p>
           </div>
           <div class="step-card">
+            <div class="step-icon"><svg><use href="#icon-calendar"></use></svg></div>
             <h4>2️⃣ Wrzucasz skan dokumentów</h4>
             <p>Robisz zdjęcie lub skan w aplikacji. To trwa chwilę.</p>
           </div>
           <div class="step-card">
+            <div class="step-icon"><svg><use href="#icon-cash"></use></svg></div>
             <h4>3️⃣ Otrzymujesz przelew w 5 minut</h4>
-            <p>Oryginały? Jeśli potrzebne — przelew i tak wychodzi od razu.
-              Nie zatrzymujemy wypłaty. Nie blokujemy kasy.</p>
+            <p>Nie zatrzymujemy wypłaty. Pieniądze są na Twoim koncie w czasie rzeczywistym.</p>
           </div>
         </div>
       </div>
@@ -121,25 +247,34 @@
 
     <section class="section section--claim">
       <div class="container">
-        <h1>Twoja płynność wraca natychmiast. Twoje problemy znikają natychmiast.</h1>
-        <p class="lead">Tak wygląda transport, kiedy pieniądze pojawiają się od razu.</p>
-        <div class="emotions">Zdjęcie kierowcy uśmiechającego się przy tirze.
-          Światło na auto → symbol nowego startu.</div>
+        <div class="section__intro section__intro--center">
+          <h1>Twoja płynność wraca natychmiast. Twoje problemy znikają natychmiast.</h1>
+          <p class="lead">Tak wygląda transport, kiedy pieniądze pojawiają się od razu.</p>
+        </div>
+        <div class="emotions">
+          <div class="emotions__image"></div>
+          <div class="emotions__copy">
+            <h4>Światło na nowy start</h4>
+            <p>Zdjęcie kierowcy uśmiechającego się przy tirze. Dominanta: światło padające na auto → symbol „nowego początku”.</p>
+            <div class="pill pill--blue">Realne emocje</div>
+          </div>
+        </div>
       </div>
     </section>
 
     <section class="section section--story">
       <div class="container">
-        <h2>Historia, którą zna każdy przewoźnik.</h2>
-        <h3>Zatory, opóźnienia, stres. Potem ADAR NOW. I wszystko się zmieniło.</h3>
-        <p class="body">Problemy z płynnością → Narastające długi → Ograniczanie floty → Wejście do ADAR NOW → Codzienne przelewy → Powrót stabilności → Przejście od przetrwania do rozwoju.</p>
+        <div class="section__intro">
+          <h2>Historia, którą zna każdy przewoźnik.</h2>
+          <p class="lead">Zatory, opóźnienia, stres. Potem ADAR NOW. I wszystko się zmieniło.</p>
+        </div>
         <div class="storyboard">
-          <div class="frame">1. Problemy z płynnością</div>
-          <div class="frame">2. Narastające długi</div>
-          <div class="frame">3. Ograniczanie floty</div>
-          <div class="frame">4. ADAR NOW</div>
-          <div class="frame">5. Codzienne przelewy</div>
-          <div class="frame">6. Stabilność i rozwój</div>
+          <div class="frame"><span>1</span> Problemy z płynnością</div>
+          <div class="frame"><span>2</span> Narastające długi</div>
+          <div class="frame"><span>3</span> Ograniczanie floty</div>
+          <div class="frame"><span>4</span> ADAR NOW</div>
+          <div class="frame"><span>5</span> Codzienne przelewy</div>
+          <div class="frame"><span>6</span> Stabilność i rozwój</div>
         </div>
       </div>
     </section>
@@ -154,27 +289,30 @@
               <div>ADAR NOW</div>
             </div>
             <div class="row">
-              <div>Oczekiwanie 30–60 dni</div>
-              <div>Przelew w 5 minut</div>
+              <div><svg><use href="#icon-calendar"></use></svg>Oczekiwanie 30–60 dni</div>
+              <div><svg><use href="#icon-clock"></use></svg>Przelew w 5 minut</div>
             </div>
             <div class="row">
-              <div>Brak płynności</div>
-              <div>Płynność codziennie</div>
+              <div><svg><use href="#icon-cash"></use></svg>Brak płynności</div>
+              <div><svg><use href="#icon-lightning"></use></svg>Płynność codziennie</div>
             </div>
             <div class="row">
-              <div>Kredyty i długi</div>
-              <div>Zero zatorów</div>
+              <div><svg><use href="#icon-fuel"></use></svg>Kredyty i długi</div>
+              <div><svg><use href="#icon-heart"></use></svg>Zero zatorów</div>
             </div>
             <div class="row">
-              <div>Ciągła niepewność</div>
-              <div>Pełna stabilność</div>
+              <div><svg><use href="#icon-clock"></use></svg>Ciągła niepewność</div>
+              <div><svg><use href="#icon-shield"></use></svg>Pełna stabilność</div>
             </div>
             <div class="row">
-              <div>Ograniczony rozwój</div>
-              <div>Możliwość skalowania</div>
+              <div><svg><use href="#icon-chart"></use></svg>Ograniczony rozwój</div>
+              <div><svg><use href="#icon-lightning"></use></svg>Możliwość skalowania</div>
             </div>
           </div>
-          <div class="comparison__callout">5 MINUT</div>
+          <div class="comparison__callout">
+            <svg><use href="#icon-lightning"></use></svg>
+            <p>5 MINUT</p>
+          </div>
         </div>
       </div>
     </section>
@@ -184,27 +322,33 @@
         <h2>Co zyskujesz dzięki ADAR NOW?</h2>
         <div class="benefits">
           <div class="benefit-card">
-            <h4>✔ Stała płynność finansowa</h4>
+            <div class="benefit-icon"><svg><use href="#icon-cash"></use></svg></div>
+            <h4>Stała płynność finansowa</h4>
             <p>Każdy fracht zamienia się w gotówkę w kilka minut.</p>
           </div>
           <div class="benefit-card">
-            <h4>✔ Spokój psychiczny</h4>
+            <div class="benefit-icon"><svg><use href="#icon-heart"></use></svg></div>
+            <h4>Spokój psychiczny</h4>
             <p>Koniec z odliczaniem dni. Skupiasz się na trasie.</p>
           </div>
           <div class="benefit-card">
-            <h4>✔ Zero długów</h4>
+            <div class="benefit-icon"><svg><use href="#icon-shield"></use></svg></div>
+            <h4>Zero długów</h4>
             <p>Nie potrzebujesz kredytów na VAT czy paliwo.</p>
           </div>
           <div class="benefit-card">
-            <h4>✔ Terminowe wypłaty kierowców</h4>
+            <div class="benefit-icon"><svg><use href="#icon-calendar"></use></svg></div>
+            <h4>Terminowe wypłaty kierowców</h4>
             <p>Twoja ekipa dostaje pieniądze zawsze na czas.</p>
           </div>
           <div class="benefit-card">
-            <h4>✔ Pieniądze na paliwo zawsze</h4>
+            <div class="benefit-icon"><svg><use href="#icon-fuel"></use></svg></div>
+            <h4>Pieniądze na paliwo zawsze</h4>
             <p>Płacisz od razu po tankowaniu. Bez nerwów.</p>
           </div>
           <div class="benefit-card">
-            <h4>✔ Realny rozwój firmy</h4>
+            <div class="benefit-icon"><svg><use href="#icon-chart"></use></svg></div>
+            <h4>Realny rozwój firmy</h4>
             <p>Stały cashflow = inwestycje w nowe auta i kontrakty.</p>
           </div>
         </div>
@@ -214,37 +358,47 @@
     <section class="section section--social-proof">
       <div class="container">
         <h2>Przewoźnicy, którzy przeszli na ADAR NOW, mówią jasno: „To zmienia wszystko”.</h2>
-        <h3>Cytaty, które już przygotowałem.</h3>
         <div class="testimonials" id="testimonials">
           <div class="testimonial active">
-            <p class="quote">„Po raz pierwszy od lat nie martwię się o przelewy. Pięć minut i mam kasę.”</p>
-            <p class="name">Marek, właściciel floty 12 aut</p>
+            <div class="avatar"></div>
+            <div>
+              <p class="quote">„Po raz pierwszy od lat nie martwię się o przelewy. Pięć minut i mam kasę.”</p>
+              <p class="name">Marek, właściciel floty 12 aut</p>
+            </div>
           </div>
           <div class="testimonial">
-            <p class="quote">„ADAR NOW to jak turbo dla firmy. Cashflow w czasie rzeczywistym.”</p>
-            <p class="name">Aneta, spedytorka</p>
+            <div class="avatar"></div>
+            <div>
+              <p class="quote">„ADAR NOW to jak turbo dla firmy. Cashflow w czasie rzeczywistym.”</p>
+              <p class="name">Aneta, spedytorka</p>
+            </div>
           </div>
           <div class="testimonial">
-            <p class="quote">„Zero kredytów, zero nerwów. Tylko jazda i natychmiastowy przelew.”</p>
-            <p class="name">Piotr, przewoźnik międzynarodowy</p>
+            <div class="avatar"></div>
+            <div>
+              <p class="quote">„Zero kredytów, zero nerwów. Tylko jazda i natychmiastowy przelew.”</p>
+              <p class="name">Piotr, przewoźnik międzynarodowy</p>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
     <section class="section section--trust">
-      <div class="container">
-        <h2>Dlaczego możemy płacić natychmiast? Bo mamy największe zaplecze w Polsce.</h2>
-        <h3>– Jesteśmy jedną z największych spedycji<br />
-          – Mamy zabezpieczenia ubezpieczeniowe<br />
-          – Mamy finansowanie i płynność<br />
-          – Mamy dział monitoringu należności</h3>
-        <p class="lead">Ty jedziesz. My pilnujemy płatności. Ty dostajesz kasę od razu.</p>
+      <div class="container two-col">
+        <div>
+          <h2>Dlaczego możemy płacić natychmiast? Bo mamy największe zaplecze w Polsce.</h2>
+          <p class="lead">Jesteśmy jedną z największych spedycji, mamy zabezpieczenia ubezpieczeniowe, finansowanie i monitoring należności.</p>
+          <div class="pill-stack">
+            <span class="pill pill--blue"><svg><use href="#icon-shield"></use></svg>Zabezpieczenia finansowe</span>
+            <span class="pill pill--dark"><svg><use href="#icon-chart"></use></svg>Monitoring należności</span>
+          </div>
+        </div>
         <div class="icons-row">
-          <div class="icon-card">Tarcza</div>
-          <div class="icon-card">Wykres</div>
-          <div class="icon-card">Bank</div>
-          <div class="icon-card">Certyfikat</div>
+          <div class="icon-card"><svg><use href="#icon-shield"></use></svg>Ubezpieczenia</div>
+          <div class="icon-card"><svg><use href="#icon-chart"></use></svg>Dzienne raporty</div>
+          <div class="icon-card"><svg><use href="#icon-cash"></use></svg>Płynność w banku</div>
+          <div class="icon-card"><svg><use href="#icon-heart"></use></svg>Zespół wsparcia</div>
         </div>
       </div>
     </section>
@@ -254,27 +408,23 @@
         <h2>Najczęściej zadawane pytania przewoźników</h2>
         <div class="faq">
           <details open>
-            <summary>Czy naprawdę wypłacacie w 5 minut?</summary>
+            <summary><svg><use href="#icon-clock"></use></svg>Czy naprawdę wypłacacie w 5 minut?</summary>
             <p>Tak. Liczymy 5 minut od momentu weryfikacji skanu dokumentów.</p>
           </details>
           <details>
-            <summary>Czy potrzebuję oryginałów?</summary>
+            <summary><svg><use href="#icon-calendar"></use></svg>Czy potrzebuję oryginałów?</summary>
             <p>Oryginały dostarczasz zgodnie z ustaleniami, ale przelew wychodzi od razu.</p>
           </details>
           <details>
-            <summary>Jak zacząć?</summary>
+            <summary><svg><use href="#icon-lightning"></use></svg>Jak zacząć?</summary>
             <p>Kliknij przycisk, zostaw dane kontaktowe i zaczynamy współpracę.</p>
           </details>
           <details>
-            <summary>Czy są limity kwotowe?</summary>
+            <summary><svg><use href="#icon-cash"></use></svg>Czy są limity kwotowe?</summary>
             <p>Obsługujemy zarówno pojedyncze frachty, jak i duże wolumeny.</p>
           </details>
           <details>
-            <summary>Jakie są koszty?</summary>
-            <p>Koszt ustalamy transparentnie przed startem — bez ukrytych opłat.</p>
-          </details>
-          <details>
-            <summary>Co z bezpieczeństwem danych?</summary>
+            <summary><svg><use href="#icon-shield"></use></svg>Co z bezpieczeństwem danych?</summary>
             <p>Chronimy dokumenty zgodnie z najwyższymi standardami bezpieczeństwa.</p>
           </details>
         </div>
@@ -284,7 +434,7 @@
     <section class="section section--cta" id="cta-final">
       <div class="container">
         <h1>Nigdy więcej czekania na pieniądze. Płacimy natychmiast. Codziennie.</h1>
-        <h2>Dołącz do ADAR NOW i odzyskaj swoją płynność już dziś.</h2>
+        <p class="lead">Dołącz do ADAR NOW i odzyskaj swoją płynność już dziś.</p>
         <a class="button primary button--xl" href="#top">OTRZYMAJ PŁATNOŚĆ W 5 MINUT</a>
         <p class="microcopy">Bezpłatne uruchomienie. Zero ryzyka. Zmiana od pierwszego frachtu.</p>
       </div>

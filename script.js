@@ -1,5 +1,6 @@
 const countdownEl = document.getElementById('countdown');
 const countdownStatus = document.getElementById('countdown-status');
+const countdownBar = document.getElementById('countdown-bar');
 let remaining = 300;
 
 function formatTime(seconds) {
@@ -11,7 +12,14 @@ function formatTime(seconds) {
 }
 
 function updateCountdown() {
-  countdownEl.textContent = formatTime(Math.max(0, remaining));
+  const clamped = Math.max(0, remaining);
+  countdownEl.textContent = formatTime(clamped);
+
+  if (countdownBar) {
+    const percent = clamped / 300;
+    countdownBar.style.transform = `scaleX(${percent})`;
+  }
+
   if (remaining <= 0) {
     countdownStatus.textContent = 'przelew wysłany';
     countdownStatus.style.color = '#2ff0a0';
@@ -25,7 +33,7 @@ function updateCountdown() {
     countdownStatus.style.color = '#ff3b53';
   } else if (remaining <= 180) {
     countdownStatus.textContent = 'przyspieszamy';
-    countdownStatus.style.color = '#3ab4ff';
+    countdownStatus.style.color = '#47c9ff';
   } else {
     countdownStatus.textContent = 'przelew w drodze';
     countdownStatus.style.color = '#9eb5d4';
